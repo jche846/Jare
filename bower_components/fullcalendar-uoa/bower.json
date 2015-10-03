@@ -1,0 +1,29 @@
+{
+  "name": "fullcalendar-uoa",
+  "version": "1.0.0",
+  "homepage": "https://github.com/UoA-CompSci/fullcalendar-uoa",
+  "description": "Fullcalendar plugin to connect to the UoA backend",
+  "license": "Apache 2.0",
+  "main": "uoacal.js",
+  "keywords": [
+    "REST",
+    "Javascript",
+    "client",
+    "UoA",
+    "calendar",
+    "fullcalendar"
+],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "authors": [
+    "University of Auckland"
+  ],
+  "dependencies": {
+    "fullcalendar": "~2.2.5"
+  }
+}

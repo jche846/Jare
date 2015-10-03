@@ -1,0 +1,38 @@
+{
+  "name": "fullcalendar-uoa-ui",
+  "homepage": "https://github.com/UoA-CompSci/fullcalendar-uoa-ui",
+  "description": "Fullcalendar UoA interface extensions plugin",
+  "main": "uoacal-ui.js",
+  "license": "Apache 2.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "keywords": [
+    "REST",
+    "Javascript",
+    "client",
+    "UoA",
+    "calendar",
+    "fullcalendar"
+  ],
+  "dependencies": {
+    "fullcalendar": "~2.2.5",
+    "datetimepicker": "~2.4.1",
+    "jquery-ui": "~1.11.2",
+    "uoacalendar-js": "*",
+    "fullcalendar-uoa": "*"
+  },
+  "_release": "417d8ae222",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "417d8ae2228e1afbda3365d14a58bb509a5e4ed1"
+  },
+  "_source": "git://github.com/UoA-CompSci/fullcalendar-uoa-ui.git",
+  "_target": "*",
+  "_originalSource": "fullcalendar-uoa-ui"
+}
