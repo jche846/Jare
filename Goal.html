@@ -99,19 +99,53 @@
             <textarea name="message" rows="10" cols="30"></textarea>
             </div>
             <br>
+            <div id="div1">
+                <div class="dropdown">
+                    <select select id="mySelect" onchange="changeLayout()">
+                        <option id="ComboBox" value="ComboBox">ComboBox</option>
+                        <option id="CheckBox" value="CheckBox">CheckBox</option>
+                        <option id="Numerical" value="Numerical">Numerical</option>
+                        <option id="Text" value="Text">Text</option>
+                    </select>
+                </div>
 
-            <div class="dropdown">
-              <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                Select form of data entry
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                <li><a href="#">Checkbox</a></li>
-                <li><a href="#">Numeric Value</a></li>
-                <li><a href="#">Combobox</a></li>
-                <li><a href="#">Free text</a></li>
-              </ul>
+                <p id="p1">
+                    hahaha
+                </p>
             </div>
+                <script>
+                function changeLayout(){
+                var cat = document.getElementById("mySelect");
+                    var parent = document.getElementById("div1");
+                    var child = document.getElementById("p1");
+                    var para = document.createElement("p");
+                if(cat.value == "ComboBox"){
+                    var node = document.createTextNode("hahaha");
+                    para.appendChild(node);
+                    parent.replaceChild(para,child);
+                    para.id="p1";
+                }else if(cat.value == "CheckBox"){
+                    var node = document.createTextNode("yoyoyo");
+                    para.appendChild(node);
+                    parent.replaceChild(para,child);
+                    para.id="p1";
+                }
+                else if(cat.value == "Numerical"){
+                    var node = document.createTextNode("lalala");
+                    para.appendChild(node);
+                    parent.replaceChild(para,child);
+                    para.id="p1";
+                }
+                else{ //text
+                    var node = document.createTextNode("lololo");
+                    para.appendChild(node);
+                    parent.replaceChild(para,child);
+                    para.id="p1";
+                }
+                }
+                </script>
+
+
             <br>
             <div class="input-group row">
                 <div class="col-md-7"><input type="text" class="form-control" placeholder="Field 1" aria-describedby="basic-addon2"></div>
