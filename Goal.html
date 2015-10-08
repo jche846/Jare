@@ -58,6 +58,13 @@
     var cal = new CalendarPopup();
     </script>
 
+    <script>
+    function Clear(){    
+   document.getElementById("textdate").value= "";
+
+}
+    </script>
+
 
 </head>
 
@@ -173,10 +180,10 @@
             <div>
                 <form class="row" NAME="example">
 
-                <div class="col-md-3"> <input type="text" class="form-control" name="date1" value="" placeholder="End date (leave blank if endless)" style="width:270px" aria-describedby="basic-addon2">
+                <div class="col-md-3"> <input type="text" class="form-control" id="textdate" name="date1" value="" placeholder="End date (leave blank if endless)" style="width:270px" aria-describedby="basic-addon2">
                 <a href="#"onClick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;"name="anchor1" id="anchor1">Select Date</a>
                 </div>
-                <div class="col-md-2"><button type="button" onclick="alert('Date cleared!')">Clear</button></div>
+                <div class="col-md-2"><button type="button" onclick="Clear();">Clear</button></div>
                 </form>
                 
             </div>
