@@ -3,6 +3,8 @@ var calendarID = 77;
 
 getCalendarClick();
 
+getEventClick(new Date());
+
 // array of existing goals
 var goals = loadGoals();
 
@@ -44,8 +46,7 @@ function Goal(title, description, dataEntryType, comboBoxFields, start, end) {
     this.idList = [];
 }
 
-function getGoalIndexFromArray(goal)
-{
+function getGoalIndexFromArray(goal) {
     for (var i = 0; i < goals.length; i++) {
         if (goals[i] != null && goals[i].title.localeCompare(goal.title) == 0) {
             return i;
@@ -187,8 +188,7 @@ function deleteGoal(goal) {
     return success;
 }
 
-function deleteGoalEvent(eventId)
-{
+function deleteGoalEvent(eventId) {
     client.deleteEvent(calendarID, eventId,
 
         /**
@@ -359,6 +359,91 @@ function updateDataEntry(goal, data) {
         */
         function(res, data) {
             alert('Failed to update data entry');
+        }
+    );
+}
+
+// args: date object
+function getEventClick(date) {
+//    var today = new Date();
+//    var dd = today.getDate();
+//    var mm = today.getMonth()+1; //January is 0!
+//    var yyyy = today.getFullYear();
+    
+    date.setUTCHours(23, 0, 0, 0);
+    
+    var startDate = new Date();
+    startDate.setUTCHours(0, 0, 0, 0);
+  
+    //console.log(startDate, date);
+    
+    client.findEvents(calendarID, startDate, date,
+
+        /**
+         * onSuccess callback
+         * @param res: response
+         * @param data: deserialized event array e.g. [{name: "Star Wars Release Date", id: 1},
+         * {name: "Lunch", id: 2}]
+         */
+        function(res, data) {
+            console.log(res);
+            console.log(data);
+            alert('I found these events: ' + data.toString());
+            
+            for (var i = 0; i < data.length; i++) {
+                if (new Date(data[i].start) < startDate || new Date(data[i].start) > date) {
+                    delete data[i];
+                }
+            }
+            //console.log(data);
+            return data;
+        },
+        
+        // onError callback
+        function(res, data) {
+            alert('Failed to find events');
+        }
+    );
+}
+
+// args: last x days
+function findEventClick(days) {
+//    var today = new Date();
+//    var dd = today.getDate();
+//    var mm = today.getMonth()+1; //January is 0!
+//    var yyyy = today.getFullYear();
+    
+    var today = new Date();
+    today.setUTCHours(23, 0, 0, 0);
+    
+    var startDate = today.getDate() - days;
+    startDate.setUTCHours(0, 0, 0, 0);
+    
+    client.findEvents(calendarID, startDate, today,
+
+        /**
+         * onSuccess callback
+         * @param res: response
+         * @param data: deserialized event array e.g. [{name: "Star Wars Release Date", id: 1},
+         * {name: "Lunch", id: 2}]
+         */
+        function(res, data) {
+            console.log(res);
+            console.log(data);
+            alert('I found these events: ' + data.toString());
+            
+            for (var i = 0; i < data.length; i++) {
+                if (new Date(data[i].start) < startDate || new Date(data[i].start) > today) {
+                    delete data[i];
+                }
+            }
+      
+            return data;
+        },
+        
+        // onError callback
+        function(res, data) {
+            alert('Failed to find events');
         }
     );
 }

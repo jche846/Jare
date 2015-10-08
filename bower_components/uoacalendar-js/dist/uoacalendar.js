@@ -134,6 +134,10 @@ UoACalendarClient = (function() {
     return this.sendRequest('/calendars/' + calendarId + '/events/?format=json', 'GET', 0, onSuccess, onError);
   };
 
+  UoACalendarClient.prototype.getEvent = function(calendarId, eventId, onSuccess, onError) {
+    return this.sendRequest('/calendars/' + calendarId + '/events/' + eventId + '/', 'GET', 0, onSuccess, onError);
+  };
+  
   UoACalendarClient.prototype.addEvent = function(calendarId, event, onSuccess, onError) {
     return this.sendRequest('/calendars/' + calendarId + '/events/', 'POST', event, onSuccess, onError);
   };
@@ -149,7 +153,10 @@ UoACalendarClient = (function() {
   UoACalendarClient.prototype.findEvents = function(calendarId, startDate, endDate, onSuccess, onError) {
     var toUTCString;
     toUTCString = function(date) {
-      return (new Date(date.getTime() + date.getTimezoneOffset() * 60000)).toISOString();
+      var nd = date.toISOString();
+      //console.log(nd);
+      return nd;
+      //return (new Date(date.getTime() + date.getTimezoneOffset() * 60000)).toISOString();
     };
     return this.sendRequest('/calendars/' + calendarId + '/find_events/', 'GET', {
       startDate: toUTCString(startDate),
