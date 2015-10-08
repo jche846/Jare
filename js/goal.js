@@ -1,12 +1,23 @@
 var client = new UoACalendarClient({ apiToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmlnX2lhdCI6MTQyMjQ5ODk0OSwiZXhwIjoxNDIyNDk5MjQ5LCJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImRldmVsb3BlciIsImVtYWlsIjoidGVzdEBhdWNrbGFuZC5hYy5ueiJ9.7jLkEBovT2HvT2noL4xdIhddaY8wpZpEVYEDHnnNm1Y"});
 var calendarID = 77;
 
+getCalendarClick();
+
 // array of existing goals
-var goals = [];
+var goals = loadGoals();
 
 // load and store using localStorage
-//goals = JSON.parse(localStorage["goals"]);
-//localStorage["goals"] = JSON.stringify(goals);
+function saveGoals() {
+    localStorage.setItem("goals", JSON.stringify(goals));
+}
+
+function loadGoals() {
+    var goals = JSON.parse(localStorage.getItem("goals"));
+    if (goals == null) {
+        goals = [];
+    }
+    return goals;
+}
 
 // Goal constructor
 function Goal(title, description, dataEntryType, comboBoxFields, start, end) {
@@ -14,26 +25,29 @@ function Goal(title, description, dataEntryType, comboBoxFields, start, end) {
     this.description = description; // string
     this.dataEntryType = dataEntryType; // string
     this.comboBoxFields = comboBoxFields; // string array
+    
+    // set hours of start to 0
+    start.setUTCHours(0, 0, 0, 0);
     this.start = start; //datetime
     
     // TODO
-    if (end == null) {
+    if (end == null || end.toDateString().localeCompare("Invalid Date") == 0) {
         // create endDate to be +1? years from now (endless goal)
         end = new Date();
-        end.setDate(end.getDate() + 365);
+        // set hours of end to 23
+        end.setUTCHours(23, 0, 0, 0);
+        end.setDate(end.getDate() + 1);// TODO 365);
     }
+    end.setUTCHours(23, 0, 0, 0);
     this.end = end;
   
     this.idList = [];
-  
-    // TODO - prob don't need
-    //this.dataEntry; // user data entry
 }
 
 function getGoalIndexFromArray(goal)
 {
     for (var i = 0; i < goals.length; i++) {
-        if (goals[i].title.localeCompare(goal.title) == 0) {
+        if (goals[i] != null && goals[i].title.localeCompare(goal.title) == 0) {
             return i;
         }
     }
@@ -43,44 +57,47 @@ function getGoalIndexFromArray(goal)
 function getCalendarClick()
 {
 	client.getCalendar(calendarID,
-			/**
-			* onSuccess callback
-			* @param res: response
-			* @param data: deserialized new calendar data e.g. { name: "My Calendar", id: 1 }
-			*/
-			function(res, data) {
-					console.log(res);
-					console.log(data);
-					calendarID = data.id; //Sign new calendar id to global
-					alert('Succeeded. Calendar id: ' + data.id);
-			},
+        /**
+        * onSuccess callback
+        * @param res: response
+        * @param data: deserialized new calendar data e.g. { name: "My Calendar", id: 1 }
+        */
+        function(res, data) {
+            console.log(res);
+            console.log(data);
+            calendarID = data.id; //Sign new calendar id to global
+            //alert('Succeeded. Calendar id: ' + data.id);
+        },
 
-			/**
-			* onError callback
-			* @param res: response
-			*/
-			function(res, data) {
-					alert('Failed to get calendar');
-			}
+        /**
+        * onError callback
+        * @param res: response
+        */
+        function(res, data) {
+            alert('Failed to get calendar');
+        }
 	);
 }
 
 function createGoalClick(title, description, dataEntryType, comboBoxFields, start, end) {
   
     // TODO test data
-    title = "testing";
-    description = "testing description";
-    dataEntryType = "combobox";
-    start = new Date();
-    end = new Date(2015, 9, 10);
+//    title = "testing";
+//    description = "testing description";
+//    dataEntryType = "combobox";
+//    start = new Date();
+//    end = new Date(2015, 9, 10);
     
     var goal = new Goal(title, description, dataEntryType, comboBoxFields, start, end);
+    console.log(goal);  
   
     var isUniqueTitle = addGoal(goal);
   
     if (isUniqueTitle) {
         addGoalEvent(goal);
         goals.push(goal);
+      
+        saveGoals();
     }
 }
 
@@ -112,7 +129,7 @@ function addGoal(goal) {
 
 function addGoalEvent(goal) {
     // goal is split daily so it occupies a slot for each day until its end date
-    var startDate = start;
+    var startDate = goal.start;
     console.log(goal);
     while (startDate <= goal.end) { // TODO if goal end is not specified go +1 year
 
@@ -126,7 +143,7 @@ function addGoalEvent(goal) {
             function(res, data) {
                 console.log(res);
                 console.log(data);
-                alert('Succeeded. Event id: ' + data.id);
+                //alert('Succeeded. Event id: ' + data.id);
                 goal.idList.push(data.id);
             },
 
@@ -135,7 +152,7 @@ function addGoalEvent(goal) {
              * @param res: response
              */
             function(res, data) {
-                alert('Failed to add goal');
+                alert('Failed to add goal event');
             }
         );
         // to the next day
@@ -147,6 +164,8 @@ function addGoalEvent(goal) {
 function deleteGoalClick(goal) {
     deleteGoalEvent(goal.id);
     deleteGoal(goal);
+  
+    saveGoals();
 }
 
 // local delete
@@ -194,7 +213,6 @@ function deleteGoalEvent(eventId)
 }
 
 // update goal based on a change in the end date
-// TODO change the fields as well
 function updateGoalClick(oldGoal, title, description, start, end) {
   
     updatedGoal = new Goal(title, description, null, null, start, end);
@@ -203,7 +221,7 @@ function updateGoalClick(oldGoal, title, description, start, end) {
     
     if (updatedGoal.end > oldGoal.end) { // goal has its end date extended so add more events
         // goal is split daily so it occupies a slot for each day until its end date
-        var startDate = new Date(oldGoal.end); // TODO maybe +1 day
+        var startDate = new Date(oldGoal.end); // TODO maybe +1 day??
         while (startDate <= updatedGoal.end) {
 
             client.addEvent(calendarID, { title: updatedGoal.title, start: startDate, description: updatedGoal.description, status: updatedGoal.dataEntryType, location: updatedGoal.comboBoxFields },
@@ -233,6 +251,8 @@ function updateGoalClick(oldGoal, title, description, start, end) {
         }
     } else if (updatedGoal.end < oldGoal.end) { // goal has its end date shortened so delete those extra events
         var today = new Date();
+        today.setUTCHours(0, 0, 0, 0);
+        
         var idList = oldGoal.idList;
         for (var i = 0; i < idList.length; i++) {
             client.getEvent(calendarID, idList[i],
@@ -289,6 +309,8 @@ function updateGoalClick(oldGoal, title, description, start, end) {
     goals[index].title = updatedGoal.title;
     goals[index].description = updatedGoal.description;
     goals[index].end = updatedGoal.end;
+  
+    saveGoals();
 }
 
 // update local TODO deprecated
