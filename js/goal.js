@@ -350,7 +350,8 @@ function updateGoalClick(oldGoal, title, description, start, end) {
 // goal is the goal data from the server
 // dataEntry is from the client input
 function updateDataEntryClick(goal, dataEntry) {
-    if (goal.start.getDate() == new Date().getDate()) {
+    console.log(new Date(goal.start).toDateString(), new Date().toDateString());
+    if (new Date(goal.start).toDateString().localeCompare(new Date().toDateString()) == 0) {
         updateDataEntry(goal, dataEntry);
     } else {
         alert("You may only input data for today's goals!");
@@ -358,8 +359,8 @@ function updateDataEntryClick(goal, dataEntry) {
 }
 
 // update data entry for today
-function updateDataEntry(goal, data) {  
-    client.updateEvent(calendarID, goal.id, { title: goal.title, start: goal.start, summary: dataEntry },
+function updateDataEntry(goal, dataEntry) {  
+    client.updateEvent(calendarID, goal.id, { title: goal.title, start: new Date(goal.start), summary: dataEntry },
         /**
         * onSuccess callback
         * @param res: response

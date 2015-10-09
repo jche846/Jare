@@ -92,22 +92,25 @@
 
 
     <script>
-        var date;
-        if (sessionStorage.getItem("date") == null) {
-            date = new Date(); // today
-        } else {
-            date = new Date(sessionStorage.getItem("date"));
-        }
-        
         $(document).ready(function() {
-            document.getElementById("monthText").innerHTML = date.toDateString();
+            var date;
+            if (sessionStorage.getItem("date") == null) {
+                date = new Date(); // today
+            } else {
+                date = new Date(sessionStorage.getItem("date"));
+            }
+            
+            document.getElementById("monthText").innerHTML = date.toDateString(); // TODO showing +1 day for some reason so -1 to offset
             
             // arg: date obj of date to view
             // this function calls the PopulateMain() function below
             getEventClick(date);
         });
+        var goalsMainHTML;
         
         function populateMain(goals) {
+            goalsMainHTML = goals;
+          
             var counter = 0;
 
             for (var i = 0; i < goals.length; i++) {
@@ -123,18 +126,18 @@
                     '<p>' + goals[i].description + '</p>'+
                     '<input type="text" name="textbox' + counter +
                     '" id="textbox' + counter + '" value="Data Entry" >' +
-                    '<button>Update</button>'+
+                    '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>'+
                   '<hr class="featurette-divider">'
                 );
 
                 newTextBoxDiv.appendTo("#TextBoxesGroup");
-
 
                 counter++;
             }
         }
       
         function prevDay() {
+            var date = new Date(sessionStorage.getItem("date"));
             date.setDate(date.getDate() - 1);
             console.log(date);
             sessionStorage.setItem("date", date);
@@ -142,10 +145,16 @@
         }
       
         function nextDay() {
+            var date = new Date(sessionStorage.getItem("date"));
             date.setDate(date.getDate() + 1);
             console.log(date);
             sessionStorage.setItem("date", date);
             location.reload();
+        }
+      
+        function updateClick(goal, dataEntry) {
+            console.log(goal, dataEntry);
+            updateDataEntryClick(goal, dataEntry);
         }
     </script>
 
