@@ -390,7 +390,7 @@ function getEventClick(date) {
     
     date.setUTCHours(23, 0, 0, 0);
     
-    var startDate = new Date();
+    var startDate = new Date(date);
     startDate.setUTCHours(0, 0, 0, 0);
   
     //console.log(startDate, date);

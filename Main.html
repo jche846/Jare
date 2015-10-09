@@ -33,8 +33,6 @@
     <script src="js/goal.js" type="text/javascript"></script>
     <!-- Dynamic -->
 
-
-
 </head>
 
 <body>
@@ -55,15 +53,15 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#" class ="glyphicon glyphicon-chevron-left"></a>
+                        <a href="#" class ="glyphicon glyphicon-chevron-left" onclick="prevDay()"></a>
                     </li>
 
                     <li>
-                        <a href="CalendarView.html">Date</a>
+                        <a href="CalendarView.html" id="monthText"></a>
                     </li>
 
                     <li>
-                        <a href="#" class ="glyphicon glyphicon-chevron-right"></a
+                        <a href="#" class ="glyphicon glyphicon-chevron-right" onclick="nextDay()"></a
                     </li>
                 </ul>
             </div>
@@ -94,9 +92,20 @@
 
 
     <script>
-        // arg: date obj of date to view
-        // this function calls the PopulateMain() function below
-        getEventClick(new Date());
+        var date;
+        if (sessionStorage.getItem("date") == null) {
+            date = new Date(); // today
+        } else {
+            date = new Date(sessionStorage.getItem("date"));
+        }
+        
+        $(document).ready(function() {
+            document.getElementById("monthText").innerHTML = date.toDateString();
+            
+            // arg: date obj of date to view
+            // this function calls the PopulateMain() function below
+            getEventClick(date);
+        });
         
         function populateMain(goals) {
             var counter = 0;
@@ -123,6 +132,20 @@
 
                 counter++;
             }
+        }
+      
+        function prevDay() {
+            date.setDate(date.getDate() - 1);
+            console.log(date);
+            sessionStorage.setItem("date", date);
+            location.reload();
+        }
+      
+        function nextDay() {
+            date.setDate(date.getDate() + 1);
+            console.log(date);
+            sessionStorage.setItem("date", date);
+            location.reload();
         }
     </script>
 
