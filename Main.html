@@ -24,10 +24,13 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
        <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="js/jquery.min.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+  
+    <script src="bower_components/uoacalendar-js/dist/uoacalendar.js"></script>
+    <script src="js/goal.js" type="text/javascript"></script>
 
 
 </head>
@@ -77,7 +80,7 @@
         <!-- Second Featurette -->
         <li class="featurette" id="about">
 
-            <h2 class="featurette-heading"> Goal1
+            <h2 class="featurette-heading" id="goal1"> Goal1
             </h2>
             <p class="lead"></p>
         </li>
@@ -125,8 +128,19 @@
       </div>
     </div>
     
+    <script>
+        getEventClick(new Date());
 
- 
+        function populateMain(goals) {
+            for (var i = 0; i < goals.length; i++) {
+                if (goals[i] != null) {
+                    document.getElementById("goal1").innerHTML = goals[i].title;
+                    break;
+                }
+            }
+        }
+    </script>
+
 </body>
 
 </html>

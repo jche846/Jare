@@ -3,8 +3,6 @@ var calendarID = 77;
 
 getCalendarClick();
 
-getEventClick(new Date());
-
 // array of existing goals
 var goals = loadGoals();
 
@@ -387,7 +385,7 @@ function getEventClick(date) {
          */
         function(res, data) {
             console.log(res);
-            console.log(data);
+            //console.log(data);
             alert('I found these events: ' + data.toString());
             
             for (var i = 0; i < data.length; i++) {
@@ -395,8 +393,9 @@ function getEventClick(date) {
                     delete data[i];
                 }
             }
-            //console.log(data);
-            return data;
+            console.log(data);
+            populateMain(data);
+            return data; // TODO don't need return
         },
         
         // onError callback
