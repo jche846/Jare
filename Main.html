@@ -96,6 +96,7 @@
             var date;
             if (sessionStorage.getItem("date") == null) {
                 date = new Date(); // today
+                sessionStorage.setItem("date", date);
             } else {
                 date = new Date(sessionStorage.getItem("date"));
             }
