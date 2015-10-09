@@ -1,112 +1,221 @@
-/* 	
-	<script src="js/progress.js" type="text/javascript"></script>
+var days = {};
 
-	var chartData = [{
-		"country": "USA",
-		"visits": 4252
-	}, {
-		"country": "China",
-		"visits": 1882
-	}, {
-		"country": "Japan",
-		"visits": 1809
-	}, {
-		"country": "Germany",
-		"visits": 1322
-	}, {
-		"country": "UK",
-		"visits": 1122
-	}, {
-		"country": "France",
-		"visits": 1114
-	}, {
-		"country": "India",
-		"visits": 984
-	}, {
-		"country": "Spain",
-		"visits": 711
-	}, {
-		"country": "Netherlands",
-		"visits": 665
-	}, {
-		"country": "Russia",
-		"visits": 580
-	}, {
-		"country": "South Korea",
-		"visits": 443
-	}, {
-		"country": "Canada",
-		"visits": 441
-	}, {
-		"country": "Brazil",
-		"visits": 395
-	}, {
-		"country": "Italy",
-		"visits": 386
-	}, {
-		"country": "Australia",
-		"visits": 384
-	}, {
-		"country": "Taiwan",
-		"visits": 338
-	}, {
-		"country": "Poland",
-		"visits": 328
-	}];
-var chart2Data = [{title:"Pie I have eaten",value:70},{title:"Pie I haven\'t eaten",value:30}];	
+var goalArray = {};
+var filteredGoalArray = {};
+//var checkboxType = {};
+checkboxType = "checkbox";
+//checkboxType = "numericValue"
+;var filteredGoalSummaries = [];
 
-AmCharts.ready(function() {
-	var chart = new AmCharts.AmSerialChart();
-	chart.dataProvider = chartData;
-	chart.categoryField = "country";
+var frequencyArray = [];
+
+var barData = {};
+var pieData = {};
+
+//Example
+var runday1 = new Goal("run 5km", "description hello", "checkbox", null, new Date(),null, "apple");
+var runday2 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "banana");
+var runday3 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "apple");
+var runday4 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "apple");
+var runday5 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "apple");
+var runday6 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "apple");
+var runday7 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "banana");
+
+var rundays = [runday1,runday2,runday3,runday4,runday5,runday6,runday7];
+
+//onclick = chartGenerate()
+function chartGenerate(){
+	console.log("chartGenerate()");
 	
-	var graph = new AmCharts.AmGraph();
-	graph.valueField = "visits";
-	graph.type = "column";
-	chart.addGraph(graph);
-	chart.write('chartdiv');
-			
-	var chart2 = new AmCharts.AmPieChart();
-	chart2.valueField = "value";
-	chart2.titleField = "title";
-	chart2.dataProvider = chart2Data;
-	chart2.write("chartdiv2");
-	console.log("sstest");
+		var days = getDays();
+		console.log(days);
+	//	goalArray = findEventClick(days);
+	//	filteredGoalArray = filterGoal(goalArray);
+		addGoalSummary(rundays);
+		console.log(filteredGoalSummaries);
+		frequencyArray = countFrequency(filteredGoalSummaries);
+		console.log(frequencyArray[0] + " " + frequencyArray[1]);
 	
-}); 
+		populate(frequencyArray);
+	
+	
+}
 
-<body>
-    <div id="chartdiv" style="width: 640px; height: 400px;"></div>
-</body>
+function getDays(){
+	console.log("getDays()");
+	
+ 	var element = document.getElementById("timeperiod");
+	var days = element.options[element.selectedIndex].value;
+	if (days == "null"){
+		alert("need timeperiod");
+	}
+	else{
+		return days;
+	}
+	
+	
+	
+}
 
- <body>
-    <div id="chartdiv2" style="width: 640px; height: 400px;"></div>
-</body>  
+function findEventClick(days){
+	//return (array of goal objects)
+	
+	
+	
+	console.log("findEventClick()");
+}
 
-*/
+// var goalArray = findEventClick(days);
+
+function filterGoal(goalArray){
+	/*
+	var element = document.getElementById("goals");
+	var op = element.options[element.selectedIndex].value;
+	
+	
+	for (goal in goalArray){
+		if goal.title == op{
+			filteredGoalArray.push(goal);
+			checkboxType = goal.status;  //adds the checkboxtype to checkboxtype
+		}
+	}
+	return filteredGoalArray;
+	
+	*/
+	
+	
+	console.log("filterGoal");
+}
+function addGoalSummary(filteredGoalArray){
+	filteredGoalSummaries = [];
+	for (i = 0; i < filteredGoalArray.length; i++){
+		var goalSummary = filteredGoalArray[i].summary;
+		filteredGoalSummaries.push(goalSummary);
+		console.log(goalSummary);
+	}
+	
+	
+	
+	
+	console.log("addGoalSummary");
+}
 
 
-//<body>
-//    <div id="chartdiv" style="width: 640px; height: 400px;"></div>
-//</body>
+//returns [a,b] where a = the options, and b = no.of.occurences
+function countFrequency(arr){
+	
+ 	    var a = [], b = [], prev;
+    
+		arr.sort();
+		for ( var i = 0; i < arr.length; i++ ) {
+			if ( arr[i] !== prev ) {
+				a.push(arr[i]);
+				b.push(1);
+			} else {
+				b[b.length-1]++;
+			}
+			prev = arr[i];
+		}
+		console.log(b);
+		return [a, b]; 
+		
+}
 
-window.onload = function(){
-	var barData = {
+
+
+function populate(frequencyArray){
+	console.log("populate");
+	if (checkboxType == "checkbox"){ 
+		populatePieData(frequencyArray);
+		generatePieChart();
+ 	} 
+ 	else if (checkboxType == "combobox"){
+		populateBarData(frequencyArray);
+		generateBarChart();
+	}
+	else{
+		alert("can't generate graph for this goal");
+	} 
+	
+	
+	
+	
+}
+
+function populatePieData(frequencyArray){
+	
+	pieData = [
+				{
+					value: frequencyArray[1][0],
+					color:"#878BB6",
+					label: frequencyArray[0][0]
+				},
+				{
+					value : frequencyArray[1][1],
+					color : "#F34353",
+					label : frequencyArray[0][1],
+					labelColor : 'white',
+					labelFontSize : '16'
+				}
+			];
+	
+	
+	
+	
+	console.log("populatePieData");
+}
+function generatePieChart(){
+	var countries= document.getElementById("countries").getContext("2d");
+	new Chart(countries).Pie(pieData, pieOptions);
+	
+	console.log("generatePieChart");
+}
+
+
+function populateBarData(frequencyArray){
+	
+	barData = {
+		labels : frequencyArray[0],
+		datasets : [
+		{
+			fillColor : "#48A497",
+			strokeColor : "#48A4D1",
+			data : frequencyArray[1]
+		}
+
+	]
+};
+	console.log("populateBarData");
+}
+
+function generateBarChart(){
+	var income = document.getElementById("income").getContext("2d");
+	new Chart(income).Bar(barData);
+	
+	console.log("populateBarChart");
+}
+
+var pieOptions = {
+    animationSteps: 100,
+	animationEasing: 'easeInOutQuart',
+	inGraphDataShow: true,
+    inGraphDataRadiusPosition: 2,
+    inGraphDataFontColor: 'white'
+}
+
+
+var barData = {
 	labels : ["January","February","March","April","May","June"],
 	datasets : [
 		{
 			fillColor : "#48A497",
 			strokeColor : "#48A4D1",
 			data : [456,479,324,569,702,600]
-		},
-		{
-			fillColor : "rgba(73,188,170,0.4)",
-			strokeColor : "rgba(72,174,209,0.4)",
-			data : [364,504,605,400,345,320]
 		}
 
 	]
 };
+
 var pieData = [
 	{
 		value: 30,
@@ -122,21 +231,6 @@ var pieData = [
 	}
 ];
 
-var pieOptions = {
-      animationSteps: 100,
- 		animationEasing: 'easeInOutQuart',
-		  inGraphDataShow: true,
-    inGraphDataRadiusPosition: 2,
-    inGraphDataFontColor: 'white'
-}
-
-
-var income = document.getElementById("income").getContext("2d");
-new Chart(income).Bar(barData);
-
-var countries= document.getElementById("countries").getContext("2d");
-new Chart(countries).Pie(pieData, pieOptions);
-}
 
 
 
