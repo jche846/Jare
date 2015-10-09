@@ -1,7 +1,15 @@
+// constants
+var COMBOBOX = "combobox";
+var CHECKBOX = "checkbox";
+var NUMERIC = "numeric";
+var FREETEXT = "freetext";
+
 var client = new UoACalendarClient({ apiToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmlnX2lhdCI6MTQyMjQ5ODk0OSwiZXhwIjoxNDIyNDk5MjQ5LCJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImRldmVsb3BlciIsImVtYWlsIjoidGVzdEBhdWNrbGFuZC5hYy5ueiJ9.7jLkEBovT2HvT2noL4xdIhddaY8wpZpEVYEDHnnNm1Y"});
 var calendarID = 77;
 
 getCalendarClick();
+
+//findEventClick("Walk123", 4);
 
 // array of existing goals
 var goals = loadGoals();
@@ -33,7 +41,7 @@ function cleanArray(ary) {
 function Goal(title, description, dataEntryType, comboBoxFields, start, end) {
     this.title = title; // string
     this.description = description; // string
-    this.dataEntryType = dataEntryType; // string
+    this.dataEntryType = dataEntryType.toLowerCase(); // string
     this.comboBoxFields = comboBoxFields; // string array
     
     // set hours of start to 0
@@ -419,7 +427,7 @@ function getEventClick(date) {
 }
 
 // args: last x days
-function findEventClick(days) {
+function findEventClick(goalTitle, days) {
 //    var today = new Date();
 //    var dd = today.getDate();
 //    var mm = today.getMonth()+1; //January is 0!
@@ -428,7 +436,8 @@ function findEventClick(days) {
     var today = new Date();
     today.setUTCHours(23, 0, 0, 0);
     
-    var startDate = today.getDate() - days;
+    var startDate = new Date(today);
+    startDate.setDate(startDate.getDate() - days);
     startDate.setUTCHours(0, 0, 0, 0);
     
     client.findEvents(calendarID, startDate, today,
@@ -441,17 +450,40 @@ function findEventClick(days) {
          */
         function(res, data) {
             console.log(res);
-            console.log(data);
-            alert('I found these events: ' + data.toString());
+            //console.log(data);
+            //alert('I found these events: ' + data.toString());
             
             for (var i = 0; i < data.length; i++) {
-                if (new Date(data[i].start) < startDate || new Date(data[i].start) > today) {
+                if (data[i].title.localeCompare(goalTitle) != 0 || new Date(data[i].start) < startDate || new Date(data[i].start) > today) {
                     delete data[i];
                 }
             }
       
             data = cleanArray(data);
-            return data;
+            console.log(data);
+      
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].summary == "") {
+                    if (data[i].status.localeCompare(CHECKBOX))
+                        data[i].summary = 0;
+                }
+            }
+      
+            chartGenerate(data);
+            
+//            // for progress html
+//            summary = [];
+//            for (var i = 0; i < data.length; i++) {
+//                if (data[i].summary == "") {
+//                    if (data[i].status.localeCompare(CHECKBOX))
+//                        data[i].summary = 0;
+//                }
+//                summary.push(data[i].summary);
+//            }
+//            console.log(summary);
+//            console.log(data[0].status);
+//      
+//            return data; // TODO don't need return
         },
         
         // onError callback

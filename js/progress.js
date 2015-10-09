@@ -1,11 +1,9 @@
-var days = {};
-
-var goalArray = {};
+var goalArray = [];
 var filteredGoalArray = {};
 //var checkboxType = {};
-checkboxType = "checkbox";
-//checkboxType = "numericValue"
-;var filteredGoalSummaries = [];
+checkboxType = "";
+//checkboxType = "numeric";
+var filteredGoalSummaries = [];
 
 var frequencyArray = [];
 
@@ -23,15 +21,22 @@ var runday7 = new Goal("run 5km", "description", "checkbox", null, new Date(),nu
 
 var rundays = [runday1,runday2,runday3,runday4,runday5,runday6,runday7];
 
+function chartGenerateClick() {
+    var days = getDays();
+    var title = document.getElementById("goal").value;
+    findEventClick(title, days); // this function calls chartGenerate() below
+}
+
 //onclick = chartGenerate()
-function chartGenerate(){
+function chartGenerate(gArray){
+    goalArray = gArray;
 	console.log("chartGenerate()");
 	
-		var days = getDays();
-		console.log(days);
+//		var days = getDays();
+//		console.log(days);
 	//	goalArray = findEventClick(days);
 	//	filteredGoalArray = filterGoal(goalArray);
-		addGoalSummary(rundays);
+		addGoalSummary(goalArray);
 		console.log(filteredGoalSummaries);
 		frequencyArray = countFrequency(filteredGoalSummaries);
 		console.log(frequencyArray[0] + " " + frequencyArray[1]);
@@ -56,16 +61,6 @@ function getDays(){
 	
 	
 }
-
-function findEventClick(days){
-	//return (array of goal objects)
-	
-	
-	
-	console.log("findEventClick()");
-}
-
-// var goalArray = findEventClick(days);
 
 function filterGoal(goalArray){
 	/*
@@ -125,11 +120,11 @@ function countFrequency(arr){
 
 function populate(frequencyArray){
 	console.log("populate");
-	if (checkboxType == "checkbox"){ 
+	if (goalArray[0].status == "checkbox"){ 
 		populatePieData(frequencyArray);
 		generatePieChart();
  	} 
- 	else if (checkboxType == "combobox"){
+ 	else if (goalArray[0].status == "combobox"){
 		populateBarData(frequencyArray);
 		generateBarChart();
 	}

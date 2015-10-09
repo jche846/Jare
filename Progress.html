@@ -68,20 +68,22 @@
 
 
     <script>
-    function addCombo() {
-    var textb = document.getElementById("txtCombo");
-    var combo = document.getElementById("combo");
-     
-    var option = document.createElement("option");
-    option.text = textb.value;
-    option.value = textb.value;
-    try {
-        combo.add(option, null); //Standard 
-    }catch(error) {
-        combo.add(option); // IE only
-    }
-    textb.value = "";
-}
+    $(document).ready(function(){
+        var goals = loadGoals();  
+
+        // populate combobox
+        for (var i = 0; i < goals.length; i++) {
+            add("goal", goals[i].title, goals[i].title);
+        }
+    });
+      
+    function add(selectId, optText, optValue) {
+        var newOption = document.createElement("option") 
+        newOption.text = optText;
+        newOption.value = optValue;
+        document.getElementById(selectId).options.add(newOption);
+    }  
+    
     </script>
 
     <script language="JavaScript">
@@ -94,18 +96,16 @@
 <body>
              <select id="goal">
 			 <option selected="selected">Select a goal</option>
-			 <option value = "run">Run 5km</option>
-			 <option value = "study">Study for 2hrs</option>
 			 </select>
 				
 			<select id="timeperiod">
 			 <option selected="selected" value = "null">Select a timeperiod</option>
-			 <option value = "7">7 days</option>
-			 <option value = "14">14 days</option>
+			 <option value = "7">Last 7 days</option>
+			 <option value = "14">Last 14 days</option>
 			 </select>
 			
 			<div  style="text-align: center">
-				<button type="button" onclick="chartGenerate()">Ok</button>
+				<button type="button" onclick="chartGenerateClick()">Ok</button>
             </div>
 			
 			<hr>
