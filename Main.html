@@ -28,9 +28,11 @@
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/bootstrap.min.js"></script>
-  
+
     <script src="bower_components/uoacalendar-js/dist/uoacalendar.js"></script>
     <script src="js/goal.js" type="text/javascript"></script>
+    <!-- Dynamic -->
+
 
 
 </head>
@@ -69,53 +71,15 @@
         </div>
         <!-- /.container -->
     </nav>
-
-    <!-- Full Width Image Header -->
-   
-
     <!-- Page Content -->
+    <hr class="featurette-divider">
     <ul class="container">
-        <hr class="featurette-divider">
-
-        <!-- Second Featurette -->
-        <li class="featurette" id="about">
-
-            <h2 class="featurette-heading" id="goal1"> Goal1
-            </h2>
-            <p class="lead"></p>
-        </li>
+        <div id='TextBoxesGroup'>
+        </div>
 
         <hr class="featurette-divider">
-
-
-        <!-- Third Featurette -->
-        <li class="featurette" id="about">
-            <h2 class="featurette-heading"> Goal2
-            </h2>
-            <p class="lead"></p>
-        </li>
-
-        <hr class="featurette-divider">
-
-        <!-- Fourth Featurette -->
-        <li class="featurette" id="about">
-            <h2 class="featurette-heading"> Goal3
-            </h2>
-            <p class="lead"></p>
-        </li>
-
-        <hr class="featurette-divider">
-
-        <!--Fifth Featureette -->
-        <li class="featurette" id="about">
-            <h2 class="featurette-heading"> Goal4
-            </h2>
-            <p class="lead"></p>
-        </li>
-
-        <hr class="featurette-divider">
-
     </ul>
+
 <!-- /.container -->
 
 <!--Footer -->
@@ -127,18 +91,37 @@
         </div>
       </div>
     </div>
-    
+
+
     <script>
         // arg: date obj of date to view
         // this function calls the PopulateMain() function below
         getEventClick(new Date());
-
+        
         function populateMain(goals) {
+            var counter = 0;
+
             for (var i = 0; i < goals.length; i++) {
-                if (goals[i] != null) {
-                    document.getElementById("goal1").innerHTML = goals[i].title;
-                    break;
-                }
+                populate(i);
+            }
+          
+            function populate(i) {
+
+                var newTextBoxDiv = $(document.createElement('div'))
+                   .attr("id", 'TextBoxDiv' + counter);
+
+                newTextBoxDiv.after().html('<h2 class="featurette-heading">' + goals[i].title + '</h2>'+
+                    '<p>' + goals[i].description + '</p>'+
+                    '<input type="text" name="textbox' + counter +
+                    '" id="textbox' + counter + '" value="Data Entry" >' +
+                    '<button>Update</button>'+
+                  '<hr class="featurette-divider">'
+                );
+
+                newTextBoxDiv.appendTo("#TextBoxesGroup");
+
+
+                counter++;
             }
         }
     </script>
