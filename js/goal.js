@@ -19,6 +19,16 @@ function loadGoals() {
     return goals;
 }
 
+function cleanArray(ary) {
+    cleanAry = []
+    for (var i = 0; i < ary.length; i++) {
+        if (ary[i] != null) {
+            cleanAry.push(ary[i]);
+        }
+    }
+    return cleanAry;
+}
+
 // Goal constructor
 function Goal(title, description, dataEntryType, comboBoxFields, start, end) {
     this.title = title; // string
@@ -175,6 +185,7 @@ function deleteGoal(goal) {
     
     if (index != -1) {
         delete goals[index];
+        goals = cleanArray(goals);
         success = true;
     }
     
@@ -267,6 +278,7 @@ function updateGoalClick(oldGoal, title, description, start, end) {
                     if (data.start > updatedGoal.end) { // this goal event is latter
                         deleteGoalEvent(data.id);
                         delete goals[index].idList[i];
+                        goals[index].idList = cleanArray(goals[index].idList);
                     } else if (data.start >= today && data.start < updatedGoal.end) { // this goal event is before
                         // now update the goals from today's date to updatedGoal.end
                         client.updateEvent(calendarID, idList[i], { title: updatedGoal.title, start: data.start, description: updatedGoal.description },
@@ -393,8 +405,9 @@ function getEventClick(date) {
                     delete data[i];
                 }
             }
+            data = cleanArray(data);
             console.log(data);
-            populateMain(data);
+            populateMain(data); // function in Main.html
             return data; // TODO don't need return
         },
         
@@ -437,6 +450,7 @@ function findEventClick(days) {
                 }
             }
       
+            data = cleanArray(data);
             return data;
         },
         
