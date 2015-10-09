@@ -96,43 +96,34 @@
     <script>
         // arg: date obj of date to view
         // this function calls the PopulateMain() function below
-        //getEventClick(new Date());
-
+        getEventClick(new Date());
+        
         function populateMain(goals) {
+            var counter = 0;
+
             for (var i = 0; i < goals.length; i++) {
-                if (goals[i] != null) {
-                    document.getElementById("goal1").innerHTML = goals[i].title;
-                    break;
-                }
+                populate(i);
+            }
+          
+            function populate(i) {
+
+                var newTextBoxDiv = $(document.createElement('div'))
+                   .attr("id", 'TextBoxDiv' + counter);
+
+                newTextBoxDiv.after().html('<h2 class="featurette-heading">' + goals[i].title + '</h2>'+
+                    '<p>' + goals[i].description + '</p>'+
+                    '<input type="text" name="textbox' + counter +
+                    '" id="textbox' + counter + '" value="Data Entry" >' +
+                    '<button>Update</button>'+
+                  '<hr class="featurette-divider">'
+                );
+
+                newTextBoxDiv.appendTo("#TextBoxesGroup");
+
+
+                counter++;
             }
         }
-    </script>
-    <script>
-    var counter = 0;
-
-    function populate() {
-
-    var newTextBoxDiv = $(document.createElement('div'))
-       .attr("id", 'TextBoxDiv' + counter);
-
-    newTextBoxDiv.after().html('<h2 class="featurette-heading">Goal Title</h2>'+
-        '<p>Descriptions of goal</p>'+
-        '<input type="text" name="textbox' + counter +
-        '" id="textbox' + counter + '" value="Data Entry" >' +
-        '<button>Update</button>'+
-      '<hr class="featurette-divider">'
-    );
-
-    newTextBoxDiv.appendTo("#TextBoxesGroup");
-
-
-    counter++;
-    }
-
-
-    for (var i = 0; i < 3; i++) {
-      populate();
-    }
     </script>
 
 </body>

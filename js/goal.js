@@ -406,7 +406,7 @@ function getEventClick(date) {
         function(res, data) {
             console.log(res);
             //console.log(data);
-            alert('I found these events: ' + data.toString());
+            //alert('I found these events: ' + data.toString());
             
             for (var i = 0; i < data.length; i++) {
                 if (new Date(data[i].start) < startDate || new Date(data[i].start) > date) {
@@ -415,7 +415,7 @@ function getEventClick(date) {
             }
             data = cleanArray(data);
             console.log(data);
-            populateMain(data); // function in Main.html
+            populateMain(data); // function called in Main.html
             return data; // TODO don't need return
         },
         
