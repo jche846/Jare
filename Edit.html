@@ -41,7 +41,7 @@
     <script src="js/goal.js" type="text/javascript"></script>
 
     <script>
-         function clearDate() {    
+         function clearDate() {
             document.getElementById("textdate").value= "";
          }
         function addCombo() {
@@ -151,9 +151,9 @@
             if (editGoal.end != null) {
                 end.value = new Date(editGoal.end).toLocaleDateString();
             }
-          
+
         });
-      
+
         function saveClick() {
 
             //var title = $("#goalTitle").value;
@@ -161,9 +161,9 @@
             var description = document.getElementById("goalDescription").value.trim();
             var start = new Date();
             var dataEntryType = document.getElementById("mySelect").value.toLowerCase(); // TODO
-            
+
             var comboboxFields = "";
-            var id = "textbox";          
+            var id = "textbox";
             if (dataEntryType.localeCompare(COMBOBOX) == 0) {
                 for (var i = 1; i <= 10; i++) {
                     var field = document.getElementById(id + "" + i);
@@ -177,36 +177,36 @@
                     }
                 }
             }
-            
+
             var end = new Date(document.getElementById("textdate").value);
             end.setDate(end.getDate() + 1); // add extra day due to it making it the day before for some reason
             createGoalClick(title, description, dataEntryType, comboboxFields, start, end);
-            
+
             // redirect to main after 3s
             setTimeout(function(){ window.location = "Main.html" }, 3000);
         }
-      
+
         function updateClick() {
             var editGoal = JSON.parse(sessionStorage.getItem("editGoal"));
-            
+
             var title = document.getElementById("goalTitle").value;
             var description = document.getElementById("goalDescription").value;
             var end = document.getElementById("textdate").value;
-          
+
             console.log('updateclick');
             //updateGoalClick(editgoal, title, description, end);
-          
-            // redirect to main after 3s
-            setTimeout(function(){ window.location = "Main.html" }, 3000);
+
+            // redirect to main after .5s
+            setTimeout(function(){ window.location = "Main.html" }, 500);
         }
-      
+
         function deleteClick() {
             var editGoal = JSON.parse(sessionStorage.getItem("editGoal"));
-          
+
             deleteGoalClick(editGoal);
-          
-            // redirect to main after 2s
-            setTimeout(function(){ window.location = "Main.html" }, 2000);
+
+            // redirect to main after 1s
+            setTimeout(function(){ window.location = "Main.html" }, 1000);
         }
     </script>
 
