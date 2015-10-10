@@ -110,16 +110,16 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="Main.html" class ="glyphicon glyphicon-arrow-left" style="font-size:30px;"> Back</a>
+                        <a href="Main.html" class="glyphicon glyphicon-arrow-left" style="font-size:30px;">Back</a>
                     </li>
 
                     <li>
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <li>
-                      <a href="Progress.html" style="font-size:20px;">Date</a>
+                      <a href="Progress.html" style="font-size:20px;" id="monthText"></a>
                     </li>
                 </ul>
             </div>
@@ -163,7 +163,13 @@
     </div>
 
 
-
+    <script>
+        $(document).ready(function() {
+            var dateToDisplay = new Date();
+            //dateToDisplay.setDate(dateToDisplay.getDate() - 1);
+            document.getElementById("monthText").innerHTML = dateToDisplay.toDateString();
+        });
+    </script>
 
 
 </body>
