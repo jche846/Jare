@@ -10,6 +10,8 @@ var frequencyArray = [];
 var barData = {};
 var pieData = {};
 
+var isPie = false; //pie = 0, bar = 1, 
+
 //Example
 var runday1 = new Goal("run 5km", "description hello", "checkbox", null, new Date(),null, "apple");
 var runday2 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "banana");
@@ -42,6 +44,7 @@ function chartGenerate(gArray){
 		console.log(frequencyArray[0] + " " + frequencyArray[1]);
 	
 		populate(frequencyArray);
+		switchPieBar(isPie);
 	
 	
 }
@@ -88,10 +91,6 @@ function addGoalSummary(filteredGoalArray){
 		filteredGoalSummaries.push(goalSummary);
 		console.log(goalSummary);
 	}
-	
-	
-	
-	
 	console.log("addGoalSummary");
 }
 
@@ -120,11 +119,13 @@ function countFrequency(arr){
 
 function populate(frequencyArray){
 	console.log("populate");
-	if (goalArray[0].status == "checkbox"){ 
+	if (goalArray[0].status == "checkbox"){
+		isPie = 1;
 		populatePieData(frequencyArray);
 		generatePieChart();
  	} 
  	else if (goalArray[0].status == "combobox"){
+		isPie = 0;
 		populateBarData(frequencyArray);
 		generateBarChart();
 	}
@@ -137,6 +138,18 @@ function populate(frequencyArray){
 	
 }
 
+function switchPieBar(isPie){
+	if (isPie){
+		document.getElementById("pieChart").style.display = "initial";
+		document.getElementById("barChart").style.display = "none";
+	}
+	else{
+		document.getElementById("pieChart").style.display = "none";
+		document.getElementById("barChart").style.display = "initial";		
+	}
+	 
+ }
+ 
 function populatePieData(frequencyArray){
 	
 	pieData = [
@@ -160,8 +173,8 @@ function populatePieData(frequencyArray){
 	console.log("populatePieData");
 }
 function generatePieChart(){
-	var countries= document.getElementById("countries").getContext("2d");
-	new Chart(countries).Pie(pieData, pieOptions);
+	var pieChart= document.getElementById("pieChart").getContext("2d");
+	new Chart(pieChart).Pie(pieData, pieOptions);
 	
 	console.log("generatePieChart");
 }
@@ -184,8 +197,8 @@ function populateBarData(frequencyArray){
 }
 
 function generateBarChart(){
-	var income = document.getElementById("income").getContext("2d");
-	new Chart(income).Bar(barData);
+	var barChart = document.getElementById("barChart").getContext("2d");
+	new Chart(barChart).Bar(barData);
 	
 	console.log("populateBarChart");
 }
