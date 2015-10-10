@@ -5,11 +5,11 @@ var NUMERIC = "numeric";
 var FREETEXT = "freetext";
 
 var client = new UoACalendarClient({ apiToken: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJvcmlnX2lhdCI6MTQyMjQ5ODk0OSwiZXhwIjoxNDIyNDk5MjQ5LCJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6ImRldmVsb3BlciIsImVtYWlsIjoidGVzdEBhdWNrbGFuZC5hYy5ueiJ9.7jLkEBovT2HvT2noL4xdIhddaY8wpZpEVYEDHnnNm1Y"});
-var calendarID = 77;
+var calendarID = 78;
 
 getCalendarClick();
 
-//findEventClick("Walk123", 4);
+var goalsRef = new Firebase("https://jare-diary.firebaseio.com/goals/");
 
 // array of existing goals
 var goals = loadGoals();
@@ -19,6 +19,12 @@ var goals = loadGoals();
 function saveGoals() {
     localStorage.setItem("goals", JSON.stringify(goals));
 }
+
+//function getGoals() {
+//    goalsRef.once("value", function(data) {
+//        return data.val();
+//    });
+//}
 
 function loadGoals() {
     var goals = JSON.parse(localStorage.getItem("goals"));
@@ -98,25 +104,22 @@ function getCalendarClick()
 }
 
 function createGoalClick(title, description, dataEntryType, comboBoxFields, start, end) {
-  
-    // TODO test data
-//    title = "testing";
-//    description = "testing description";
-//    dataEntryType = "combobox";
-//    start = new Date();
-//    end = new Date(2015, 9, 10);
-    
+
     var goal = new Goal(title, description, dataEntryType, comboBoxFields, start, end);
     console.log(goal);  
   
-    var isUniqueTitle = addGoal(goal);
-  
-    if (isUniqueTitle) {
-        addGoalEvent(goal);
-        goals.push(goal);
-      
-        saveGoals();
-    }
+    addGoalToCloud(goal);
+    addGoalEvent(goal);
+
+//    var isUniqueTitle = addGoal(goal);
+//  
+//    if (isUniqueTitle) {
+//        
+//        //addGoalEvent(goal);
+//        goals.push(goal);
+//      
+//        saveGoals();
+//    }
 }
 
 // add to goal list local
@@ -143,6 +146,36 @@ function addGoal(goal) {
     }
   
     return success;
+}
+
+function addGoalToCloud(goal) {
+    // check if goal title already exists
+    var titleExists = false;
+    goalsRef.once("value", function(data) {
+        var goalTitles = Object.keys(data.val());
+      
+        for (var i = 0; i < goalTitles.length; i++) {
+            console.log("checking goal");
+            if (goalTitles[i].localeCompare(goal.title) == 0) {
+                alert("Goal title already exists! Choose another title - fb");
+                titleExists = true;
+                break;
+            }
+        }
+        
+        if (!titleExists) {
+            goalsRef.child(goal.title).set({
+                title: goal.title,
+                start: goal.start.toISOString(),
+                description: goal.description,
+                status: goal.dataEntryType,
+                location: goal.comboBoxFields,
+                end: goal.end.toISOString()
+            });
+            alert("Goal created/added!");
+        }
+        console.log(data.val());
+    });
 }
 
 function addGoalEvent(goal) {
@@ -206,6 +239,13 @@ function deleteGoal(goal) {
     return success;
 }
 
+// TODO use list goal event
+// check if title == goal to delete
+// check if date is >= today (previous data is uneditable
+//    if date is before today then 'deleteFromFB = false'
+// delete this goal using the goal id
+// don't delete from Firebase unless all goal events are removed, i.e. created and deleted on same day
+// above^ delete id 'deleteFromFB = true
 function deleteGoalEvent(eventId) {
     client.deleteEvent(calendarID, eventId,
 
@@ -466,7 +506,7 @@ function findEventClick(goalTitle, days) {
       
             for (var i = 0; i < data.length; i++) {
                 if (data[i].summary == "") {
-                    if (data[i].status.localeCompare(CHECKBOX))
+                    if (data[i].status.localeCompare(CHECKBOX) == 0)
                         data[i].summary = 0;
                 }
             }
@@ -477,7 +517,7 @@ function findEventClick(goalTitle, days) {
 //            summary = [];
 //            for (var i = 0; i < data.length; i++) {
 //                if (data[i].summary == "") {
-//                    if (data[i].status.localeCompare(CHECKBOX))
+//                    if (data[i].status.localeCompare(CHECKBOX) == 0)
 //                        data[i].summary = 0;
 //                }
 //                summary.push(data[i].summary);
