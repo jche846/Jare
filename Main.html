@@ -165,6 +165,8 @@
 
         function goalClick(goal) {
             console.log(goal);
+            sessionStorage.setItem("editGoal", JSON.stringify(goal));
+            window.location = "Edit.html";
         }
     </script>
 
