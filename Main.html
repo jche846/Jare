@@ -99,6 +99,7 @@
             var date;
             if (sessionStorage.getItem("date") == null) {
                 date = new Date(); // today
+                date.setHours(date.getHours() + 13);
                 sessionStorage.setItem("date", date);
             } else {
                 date = new Date(sessionStorage.getItem("date"));
@@ -106,6 +107,7 @@
 
             // showing +1 day for some reason so -1 to offset
             var dateToDisplay = new Date(date);
+            dateToDisplay.setHours(dateToDisplay.getHours() - 13);
             //dateToDisplay.setDate(dateToDisplay.getDate() - 1);
             document.getElementById("monthText").innerHTML = dateToDisplay.toDateString();
 

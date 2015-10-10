@@ -236,6 +236,7 @@
             var title = document.getElementById("goalTitle").value.trim();
             var description = document.getElementById("goalDescription").value.trim();
             var start = new Date();
+            start.setHours(start.getHours() + 13);
             var dataEntryType = document.getElementById("mySelect").value.toLowerCase(); // TODO
 
             var comboboxFields = "";
@@ -257,7 +258,8 @@
             var end = new Date(document.getElementById("textdate").value);
             end.setDate(end.getDate() + 1); // add extra day due to it making it the day before for some reason
             createGoalClick(title, description, dataEntryType, comboboxFields, start, end);
-
+            //console.log(start.toISOString(), end.toISOString());
+          
             // redirect to main after 3s
             //setTimeout(function(){ window.location = "Main.html" }, 3000);
         }
