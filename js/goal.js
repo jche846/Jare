@@ -13,6 +13,7 @@ getCalendarClick();
 
 // array of existing goals
 var goals = loadGoals();
+//console.log(JSON.stringify(goals));
 
 // load and store using localStorage
 function saveGoals() {
@@ -230,9 +231,9 @@ function deleteGoalEvent(eventId) {
 }
 
 // update goal based on a change in the end date
-function updateGoalClick(oldGoal, title, description, start, end) {
+function updateGoalClick(oldGoal, title, description, end) {
   
-    updatedGoal = new Goal(title, description, null, null, start, end);
+    updatedGoal = new Goal(title, description, null, null, oldGoal.start, end);
   
     var index = getGoalIndexFromArray(oldGoal);
     
