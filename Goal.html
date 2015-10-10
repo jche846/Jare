@@ -102,19 +102,18 @@
             <br>
 
             <div class="input-group">
-                Description:
-                <br>
-                <textarea id="goalDescription" name="message" rows="10" cols="30"></textarea>
+                <textarea id="goalDescription" placeholder="Description of the goal" name="message" rows="10" cols="30"></textarea>
             </div>
             <br>
 
+            Data entry type:
             <div id="div1">
                 <div class="dropdown">
                     <select select id="mySelect" onchange="changeLayout()">
                         <option id="ComboBox" value="ComboBox">ComboBox</option>
                         <option id="CheckBox" value="CheckBox">CheckBox</option>
                         <option id="Numerical" value="Numerical">Numerical</option>
-                        <option id="Text" value="Text">Text</option>
+                        <option id="Free Text" value="Text">Text</option>
                     </select>
                 </div>
 
@@ -137,7 +136,7 @@
                                 var newTextBoxDiv = $(document.createElement('div'))
                                         .attr("id", 'TextBoxDiv' + counter);
 
-                                newTextBoxDiv.after().html('<label>Textbox #'+ counter + ' : </label>' +
+                                newTextBoxDiv.after().html('<label>Field #'+ counter + ': &nbsp;</label>' +
                                         '<input type="text" name="textbox' + counter +
                                         '" id="textbox' + counter + '" value="" >');
 
@@ -164,11 +163,11 @@
 
                 <div id='TextBoxesGroup'>
                     <div id="TextBoxDiv1">
-                        <label>Textbox #1 : </label><input type='textbox' id='textbox1' >
+                        <label>Field #1: &nbsp;</label><input type='textbox' id='textbox1' >
                     </div>
                 </div>
-                <input type='button' value='Add Button' id='addButton'>
-                <input type='button' value='Remove Button' id='removeButton'>
+                <input type='button' value='Add Field' id='addButton'>
+                <input type='button' value='Remove Field' id='removeButton'>
 
                 </div>
                 </p>
@@ -221,10 +220,10 @@
 
 <div class="row featurette">
     <div class="col-md-6" style="text-align: center">
-        <button type="button">Cancel</button>
+        <a class="btn btn-default" href="Main.html">Cancel</a>
     </div>
     <div class="col-md-6" style="text-align: center">
-        <button type="button" onclick="saveClick()">Save</button>
+        <a class="btn btn-default" onclick="saveClick()">Save</a>
     </div>
 </div>
 
@@ -245,14 +244,33 @@
         function saveClick() {
 
             //var title = $("#goalTitle").value;
-            var title = document.getElementById("goalTitle").value;
-            var description = document.getElementById("goalDescription").value;
+            var title = document.getElementById("goalTitle").value.trim();
+            var description = document.getElementById("goalDescription").value.trim();
             var start = new Date();
-            var dataEntryType = document.getElementById("mySelect").value;
-            var comboboxFields = null; // TODO
+            var dataEntryType = document.getElementById("mySelect").value.toLowerCase(); // TODO
+            
+            var comboboxFields = "";
+            var id = "textbox";          
+            if (dataEntryType.localeCompare(COMBOBOX) == 0) {
+                for (var i = 1; i <= 10; i++) {
+                    var field = document.getElementById(id + "" + i);
+                    if (field != null && field.value.trim() != "") {
+                        if (i == 1) {
+                            comboboxFields += field.value;
+                        } else {
+                            comboboxFields += "," + field.value;
+                        }
+                        //console.log(field.value);
+                    }
+                }
+            }
+            
             var end = new Date(document.getElementById("textdate").value);
             end.setDate(end.getDate() + 1); // add extra day due to it making it the day before for some reason
             createGoalClick(title, description, dataEntryType, comboboxFields, start, end);
+            
+            // redirect to main after 3s
+            setTimeout(function(){ window.location = "Main.html" }, 3000);
         }
     </script>
 
