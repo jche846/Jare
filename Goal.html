@@ -41,7 +41,7 @@
     <script src="js/goal.js" type="text/javascript"></script>
 
     <script>
-         function clearDate() {    
+         function clearDate() {
             document.getElementById("textdate").value= "";
          }
         function addCombo() {
@@ -84,18 +84,6 @@
         <fieldset>
 
             <legend>Add a New Goal</legend>
-            <div class="dropdown">
-                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="true">
-                    Select existing goal
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    <li><a href="#">New</a></li>
-                </ul>
-            </div>
-            <br>
-
             <div class="input-group">
                 <input id="goalTitle" type="text" class="form-control" placeholder="Title of the goal" aria-describedby="basic-addon2">
             </div>
@@ -219,10 +207,10 @@
 
 
 <div class="row featurette">
-    <div class="col-md-6" style="text-align: center">
+    <div class="col-md-1" style="text-align: center">
         <a class="btn btn-default" href="Main.html">Cancel</a>
     </div>
-    <div class="col-md-6" style="text-align: center">
+    <div class="col-md-3" style="text-align: center">
         <a class="btn btn-default" onclick="saveClick()">Save</a>
     </div>
 </div>
@@ -236,11 +224,11 @@
     <script>
         var goals = loadGoals();
         console.log(goals);
-      
+
         function populateGoalCombobox() {
-            
+
         }
-      
+
         function saveClick() {
 
             //var title = $("#goalTitle").value;
@@ -248,9 +236,9 @@
             var description = document.getElementById("goalDescription").value.trim();
             var start = new Date();
             var dataEntryType = document.getElementById("mySelect").value.toLowerCase(); // TODO
-            
+
             var comboboxFields = "";
-            var id = "textbox";          
+            var id = "textbox";
             if (dataEntryType.localeCompare(COMBOBOX) == 0) {
                 for (var i = 1; i <= 10; i++) {
                     var field = document.getElementById(id + "" + i);
@@ -264,11 +252,11 @@
                     }
                 }
             }
-            
+
             var end = new Date(document.getElementById("textdate").value);
             end.setDate(end.getDate() + 1); // add extra day due to it making it the day before for some reason
             createGoalClick(title, description, dataEntryType, comboboxFields, start, end);
-            
+
             // redirect to main after 3s
             setTimeout(function(){ window.location = "Main.html" }, 3000);
         }
