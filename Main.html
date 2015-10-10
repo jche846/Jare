@@ -69,20 +69,13 @@
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                       &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <li>
                       <a href="Progress.html" style="font-size:20px;">Progress</a>
                     </li>
                 </ul>
             </div>
-
-            <!-- /.navbar-collapse -->
         </div>
-        <!-- /.container -->
     </nav>
-    <!-- Page Content -->
     <hr class="featurette-divider">
     <ul class="container">
         <div id='TextBoxesGroup'>
@@ -90,8 +83,6 @@
 
         <hr class="featurette-divider">
     </ul>
-
-<!-- /.container -->
 
 <!--Footer -->
 
@@ -102,8 +93,6 @@
         </div>
       </div>
     </div>
-
-
     <script>
         $(document).ready(function() {
             var date;
@@ -113,12 +102,12 @@
             } else {
                 date = new Date(sessionStorage.getItem("date"));
             }
-            
+
             // showing +1 day for some reason so -1 to offset
             var dateToDisplay = new Date(date);
             dateToDisplay.setDate(dateToDisplay.getDate() - 1);
             document.getElementById("monthText").innerHTML = dateToDisplay.toDateString();
-            
+
             // arg: date obj of date to view
             // this function calls the PopulateMain() function below
             getEventClick(date);
@@ -173,7 +162,7 @@
             console.log(goal, dataEntry);
             updateDataEntryClick(goal, dataEntry);
         }
-      
+
         function goalClick(goal) {
             console.log(goal);
         }
