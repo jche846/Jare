@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Main</title>
+    <title>Habits Diary</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -101,7 +101,10 @@
                 date = new Date(sessionStorage.getItem("date"));
             }
             
-            document.getElementById("monthText").innerHTML = date.toDateString(); // TODO showing +1 day for some reason so -1 to offset
+            // showing +1 day for some reason so -1 to offset
+            var dateToDisplay = new Date(date);
+            dateToDisplay.setDate(dateToDisplay.getDate() - 1);
+            document.getElementById("monthText").innerHTML = dateToDisplay.toDateString();
             
             // arg: date obj of date to view
             // this function calls the PopulateMain() function below
@@ -123,10 +126,10 @@
                 var newTextBoxDiv = $(document.createElement('div'))
                    .attr("id", 'TextBoxDiv' + counter);
 
-                newTextBoxDiv.after().html('<h2 class="featurette-heading">' + goals[i].title + '</h2>'+
+                newTextBoxDiv.after().html('<a onclick="goalClick(goalsMainHTML[' + i + '])"><h2 class="featurette-heading">' + goals[i].title + '</h2></a>'+
                     '<p>' + goals[i].description + '</p>'+
                     '<input type="text" name="textbox' + counter +
-                    '" id="textbox' + counter + '" value="Data Entry" >' +
+                    '" id="textbox' + counter + '" placeholder="Data Entry" >' +
                     '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>'+
                   '<hr class="featurette-divider">'
                 );
@@ -156,6 +159,10 @@
         function updateClick(goal, dataEntry) {
             console.log(goal, dataEntry);
             updateDataEntryClick(goal, dataEntry);
+        }
+      
+        function goalClick(goal) {
+            console.log(goal);
         }
     </script>
 
