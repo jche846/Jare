@@ -53,18 +53,31 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
                     <li>
-                        <a href="#" class ="glyphicon glyphicon-chevron-left" onclick="prevDay()"></a>
+                        <a href="#" class ="glyphicon glyphicon-chevron-left" style="font-size:18px;"onclick="prevDay()"></a>
                     </li>
 
                     <li>
-                        <a href="CalendarView.html" id="monthText"></a>
+                        <a href="CalendarView.html" id="monthText" style="font-size:22px;"></a>
                     </li>
 
                     <li>
-                        <a href="#" class ="glyphicon glyphicon-chevron-right" onclick="nextDay()"></a
+                        <a href="#" class ="glyphicon glyphicon-chevron-right" style="font-size:18px;" onclick="nextDay()"></a
+                    </li>
+                    <li>
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <li>
+                      <a href="Progress.html" style="font-size:20px;">Progress</a>
                     </li>
                 </ul>
             </div>
+
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
@@ -85,7 +98,7 @@
     <div class="footer" style="padding-top: 20px; padding-bottom: 20px;">
       <div class="row featurette">
         <div class="col-md-12" style="text-align: center">
-        <a href="Goal.html">Add New Goal +</a>
+        <a href="Goal.html" style="font-size:28px;">Add New Goal +</a>
         </div>
       </div>
     </div>
@@ -111,16 +124,16 @@
             getEventClick(date);
         });
         var goalsMainHTML;
-        
+
         function populateMain(goals) {
             goalsMainHTML = goals;
-          
+
             var counter = 0;
 
             for (var i = 0; i < goals.length; i++) {
                 populate(i);
             }
-          
+
             function populate(i) {
 
                 var newTextBoxDiv = $(document.createElement('div'))
@@ -139,7 +152,7 @@
                 counter++;
             }
         }
-      
+
         function prevDay() {
             var date = new Date(sessionStorage.getItem("date"));
             date.setDate(date.getDate() - 1);
@@ -147,7 +160,7 @@
             sessionStorage.setItem("date", date);
             location.reload();
         }
-      
+
         function nextDay() {
             var date = new Date(sessionStorage.getItem("date"));
             date.setDate(date.getDate() + 1);
@@ -155,7 +168,7 @@
             sessionStorage.setItem("date", date);
             location.reload();
         }
-      
+
         function updateClick(goal, dataEntry) {
             console.log(goal, dataEntry);
             updateDataEntryClick(goal, dataEntry);
