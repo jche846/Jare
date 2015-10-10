@@ -130,7 +130,7 @@
                    .attr("id", 'TextBoxDiv' + counter);
 
                 newTextBoxDiv.after().html('<a onclick="goalClick(goalsMainHTML[' + i + '])"><h2 class="featurette-heading">' + goals[i].title + '</h2></a>'+
-                    '<p>' + goals[i].description + '</p>'+
+                    '<p style="font-size:20px;">' + goals[i].description + '</p>'+
                     '<input type="text" name="textbox' + counter +
                     '" id="textbox' + counter + '" placeholder="Data Entry" >' +
                     '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>'+
