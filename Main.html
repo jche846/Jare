@@ -155,7 +155,7 @@
                         '<p style="font-size:20px;">' + goalsMainHTML[i].description + '</p>'+
                         '<select id="textbox' + counter + '"> <option value=null>Please select...</option>';
                   
-                  console.log(goalsMainHTML[i].location);
+                  //console.log(goalsMainHTML[i].location);
                   var comboboxFields = goalsMainHTML[i].location.split(",");
                   
                   for (var j = 0; j < comboboxFields.length; j++) {
@@ -169,6 +169,35 @@
                 }
 
                 newTextBoxDiv.appendTo("#TextBoxesGroup");
+              
+//                if (goalsMainHTML[i].summary != null && goalsMainHTML[i].summary != "") {
+//                    console.log(goalsMainHTML[i].summary);
+                    if (goalsMainHTML[i].status.localeCompare("numeric") == 0) {
+                        document.getElementById("textbox" + counter).value = goalsMainHTML[i].summary;
+                    }
+                  
+                    else if (goalsMainHTML[i].status.localeCompare("freetext") == 0) {
+                        document.getElementById("textbox" + counter).value = goalsMainHTML[i].summary;
+                    }
+                  
+                    else if (goalsMainHTML[i].status.localeCompare("checkbox") == 0) {
+                        if (goalsMainHTML[i].summary) {
+                            document.getElementById("textbox" + counter).checked = goalsMainHTML[i].summary;
+                        }
+                    }
+              
+                    else if (goalsMainHTML[i].status.localeCompare("combobox") == 0) {
+                        var comboboxFields = goalsMainHTML[i].location.split(",");
+                        var index = 0;
+                        for (var j = 0; j < comboboxFields.length; j++) {
+                            if (comboboxFields[j].localeCompare(goalsMainHTML[i].summary) == 0) {
+                                index = j;
+                                break;
+                            }
+                        }
+                        document.getElementById("textbox" + counter).selectedIndex = index;
+                    }
+//                }
 
                 counter++;
             }
