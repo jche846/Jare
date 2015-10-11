@@ -152,14 +152,16 @@ function addGoalToCloud(goal) {
     // check if goal title already exists
     var titleExists = false;
     goalsRef.once("value", function(data) {
-        var goalTitles = Object.keys(data.val());
-      
-        for (var i = 0; i < goalTitles.length; i++) {
-            console.log("checking goal");
-            if (goalTitles[i].localeCompare(goal.title) == 0) {
-                alert("Goal title already exists! Choose another title - fb");
-                titleExists = true;
-                break;
+        if (data.val() != null) {
+            var goalTitles = Object.keys(data.val());
+
+            for (var i = 0; i < goalTitles.length; i++) {
+                console.log("checking goal");
+                if (goalTitles[i].localeCompare(goal.title) == 0) {
+                    alert("Goal title already exists! Choose another title - fb");
+                    titleExists = true;
+                    break;
+                }
             }
         }
         
