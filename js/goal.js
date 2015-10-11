@@ -61,7 +61,7 @@ function Goal(title, description, dataEntryType, comboBoxFields, start, end) {
         end = new Date();
         // set hours of end to 23
         end.setUTCHours(23, 0, 0, 0);
-        end.setDate(end.getDate() + 1);// TODO 365);
+        end.setDate(end.getDate() + 30);// TODO 365);
     }
     end.setUTCHours(23, 0, 0, 0);
     this.end = end;
