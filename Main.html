@@ -122,7 +122,18 @@
 
             var counter = 0;
 
-            for (var i = 0; i < goals.length; i++) {
+            var inputType = "text"; // default
+            for (var i = 0; i < goalsMainHTML.length; i++) {
+                
+                if (goalsMainHTML[i].status.localeCompare("checkbox") == 0) {
+                    inputType = "checkbox";
+                } else if (goalsMainHTML[i].status.localeCompare("numeric") == 0) {
+                    inputType = "number";
+                } else if (goalsMainHTML[i].status.localeCompare("freetext") == 0) {
+                    inputType = "text";
+                } else if (goalsMainHTML[i].status.localeCompare("combobox") == 0) {
+                    inputType = "combobox";
+                }
                 populate(i);
             }
 
@@ -131,13 +142,31 @@
                 var newTextBoxDiv = $(document.createElement('div'))
                    .attr("id", 'TextBoxDiv' + counter);
 
-                newTextBoxDiv.after().html('<a onclick="goalClick(goalsMainHTML[' + i + '])"><h2 class="featurette-heading">' + goals[i].title + '</h2></a>'+
-                    '<p style="font-size:20px;">' + goals[i].description + '</p>'+
-                    '<input type="text" name="textbox' + counter +
-                    '" id="textbox' + counter + '" placeholder="Data Entry" >' +
-                    '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>'+
-                  '<hr class="featurette-divider">'
-                );
+                if (inputType.localeCompare("combobox") != 0) {
+                    newTextBoxDiv.after().html('<a onclick="goalClick(goalsMainHTML[' + i + '])"><h2 class="featurette-heading">' + goalsMainHTML[i].title + '</h2></a>'+
+                        '<p style="font-size:20px;">' + goals[i].description + '</p>'+
+                        '<input type="'+ inputType + '" name="textbox' + counter +
+                        '" id="textbox' + counter + '" placeholder="Data Entry" >' +
+                        '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>'+
+                      '<hr class="featurette-divider">'
+                    );
+                } else {
+                   comboboxHtml = '<a onclick="goalClick(goalsMainHTML[' + i + '])"><h2 class="featurette-heading">' + goalsMainHTML[i].title + '</h2></a>'+
+                        '<p style="font-size:20px;">' + goalsMainHTML[i].description + '</p>'+
+                        '<select id="textbox' + counter + '"> <option value=null>Please select...</option>';
+                  
+                  console.log(goalsMainHTML[i].location);
+                  var comboboxFields = goalsMainHTML[i].location.split(",");
+                  
+                  for (var j = 0; j < comboboxFields.length; j++) {
+                      comboboxHtml += '<option value=' + comboboxFields[j] + '>' + comboboxFields[j] + '</option>';
+                  }
+                  
+                  comboboxHtml += '</select> <button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>' +
+                      '<hr class="featurette-divider">';
+                  
+                  newTextBoxDiv.after().html(comboboxHtml);
+                }
 
                 newTextBoxDiv.appendTo("#TextBoxesGroup");
 

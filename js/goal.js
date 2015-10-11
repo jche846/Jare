@@ -261,7 +261,10 @@ function deleteGoalEvent(eventId) {
         function(res, data) {
             console.log(res);
             console.log(data);
-            alert('Succeeded. Event id: ' + data.id);
+            //alert('Succeeded. Event id: ' + data.id);
+      
+            // TODO redirect to main after 1.5s
+            setTimeout(function(){ window.location = "Main.html" }, 1500);
         },
 
         /**
