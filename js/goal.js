@@ -142,7 +142,7 @@ function addGoal(goal) {
         alert("Goal title already exists! Choose another title");
     } else {
         success = true;
-        alert("Goal created/added!");
+        //alert("Goal created/added!");
     }
   
     return success;
@@ -175,7 +175,7 @@ function addGoalToCloud(goal) {
                 end: goal.end.toISOString()
             });
             addGoalEvent(goal);
-            alert("Goal created/added!");
+            //alert("Goal created/added!");
         }
         console.log(data.val());
     });
@@ -238,9 +238,9 @@ function deleteGoal(goal) {
     }
     
     if (success) {
-        alert("Goal deleted!");
+        //alert("Goal deleted!");
     } else {
-        alert("Error deleting goal");
+        //alert("Error deleting goal");
     }
     return success;
 }
@@ -419,7 +419,7 @@ function updateDataEntry(goal, dataEntry) {
         function(res, data) {
             console.log(res);
             console.log(data);
-            alert('Succeeded. Event id: ' + data.id);
+            //alert('Succeeded. Event id: ' + data.id);
         },
 
         /**
