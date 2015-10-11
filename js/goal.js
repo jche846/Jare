@@ -109,7 +109,7 @@ function createGoalClick(title, description, dataEntryType, comboBoxFields, star
     console.log(goal);  
   
     addGoalToCloud(goal);
-    addGoalEvent(goal);
+    
 
 //    var isUniqueTitle = addGoal(goal);
 //  
@@ -172,6 +172,7 @@ function addGoalToCloud(goal) {
                 location: goal.comboBoxFields,
                 end: goal.end.toISOString()
             });
+            addGoalEvent(goal);
             alert("Goal created/added!");
         }
         console.log(data.val());
@@ -209,6 +210,9 @@ function addGoalEvent(goal) {
         // to the next day
         startDate.setDate(startDate.getDate() + 1);
     } 
+    
+    // TODO redirect to main after 2s assuming successfully added
+    setTimeout(function(){ window.location = "Main.html" }, 2000);
 }
 
 // args: goal obj from server that is to be deleted
