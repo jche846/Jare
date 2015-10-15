@@ -1,7 +1,7 @@
 var goalArray = [];
 var filteredGoalArray = {};
 //var checkboxType = {};
-checkboxType = "";
+checkboxType = "combobox";
 //checkboxType = "numeric";
 var filteredGoalSummaries = [];
 
@@ -13,15 +13,36 @@ var pieData = {};
 var isPie = false; //pie = 0, bar = 1, 
 
 //Example
-var runday1 = new Goal("run 5km", "description hello", "checkbox", null, new Date(),null, "apple");
-var runday2 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "banana");
-var runday3 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "apple");
-var runday4 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "apple");
-var runday5 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "apple");
-var runday6 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "apple");
-var runday7 = new Goal("run 5km", "description", "checkbox", null, new Date(),null, "banana");
+var runday1 = new Goal("run 5km", "description hello", "combobox", null, new Date(),null, "not checked");
+var runday2 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "not checked");
+var runday3 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "not checked");
+var runday4 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "not checked");
+var runday5 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "checked");
+var runday6 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "checked");
+var runday7 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "checked");
 
 var rundays = [runday1,runday2,runday3,runday4,runday5,runday6,runday7];
+
+var drinkgoal1 = new Goal("run 5km", "description hello", "combobox", null, new Date(),null, "high");
+var drinkgoal2 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "medium");
+var drinkgoal3 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "low");
+var drinkgoal4 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "high");
+var drinkgoal5 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "medium");
+var drinkgoal6 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "medium");
+var drinkgoal7 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "medium");
+
+var drinkdays = [drinkgoal1, drinkgoal2,drinkgoal3,drinkgoal4,drinkgoal5,drinkgoal6,drinkgoal7];
+//drinkdays = gym
+var realrunday1 = new Goal("run 5km", "description hello", "combobox", null, new Date(),null, "2");
+var realrunday2 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "2");
+var realrunday3 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "1");
+var realrunday4 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "3");
+var realrunday5 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "2");
+var realrunday6 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "1");
+var realrunday7 = new Goal("run 5km", "description", "combobox", null, new Date(),null, "3");
+
+var realrundays = [realrunday1,realrunday2,realrunday3,realrunday4,realrunday5,realrunday6,realrunday7];
+
 
 function chartGenerateClick() {
     var days = getDays();
@@ -33,12 +54,30 @@ function chartGenerateClick() {
 function chartGenerate(gArray){
     goalArray = gArray;
 	console.log("chartGenerate()");
+	var title = document.getElementById("goal").value;
+	console.log(title);
 	
 //		var days = getDays();
 //		console.log(days);
 	//	goalArray = findEventClick(days);
 	//	filteredGoalArray = filterGoal(goalArray);
-		addGoalSummary(goalArray);
+	
+		
+	 	if (title == "checkbox"){
+		checkboxType = "checkbox";
+		addGoalSummary(rundays);
+		}
+		
+		else if (title == "combobox2"){
+		checkboxType = "combobox";
+		addGoalSummary(drinkdays);
+		console.log("HERE");
+		}
+		else{
+		checkboxType = "combobox";
+		addGoalSummary(realrundays);
+		console.log("HERE");
+		}
 		console.log(filteredGoalSummaries);
 		frequencyArray = countFrequency(filteredGoalSummaries);
 		console.log(frequencyArray[0] + " " + frequencyArray[1]);
@@ -119,12 +158,12 @@ function countFrequency(arr){
 
 function populate(frequencyArray){
 	console.log("populate");
-	if (goalArray[0].status == "checkbox"){
+	if (checkboxType == "checkbox"){
 		isPie = 1;
 		populatePieData(frequencyArray);
 		generatePieChart();
  	} 
- 	else if (goalArray[0].status == "combobox"){
+ 	else if (checkboxType == "combobox"){
 		isPie = 0;
 		populateBarData(frequencyArray);
 		generateBarChart();
@@ -153,18 +192,20 @@ function switchPieBar(isPie){
 function populatePieData(frequencyArray){
 	
 	pieData = [
-				{
-					value: frequencyArray[1][0],
-					color:"#878BB6",
-					label: frequencyArray[0][0]
-				},
-				{
+	
+		{
 					value : frequencyArray[1][1],
-					color : "#F34353",
+					color:"#878BB6",
 					label : frequencyArray[0][1],
 					labelColor : 'white',
 					labelFontSize : '16'
+				},
+				{
+					value: frequencyArray[1][0],
+					color : "#F34353",
+					label: frequencyArray[0][0]
 				}
+		
 			];
 	
 	
@@ -198,9 +239,16 @@ function populateBarData(frequencyArray){
 
 function generateBarChart(){
 	var barChart = document.getElementById("barChart").getContext("2d");
-	new Chart(barChart).Bar(barData);
+	new Chart(barChart).Bar(barData, barOptions);
 	
 	console.log("populateBarChart");
+}
+
+var barOptions = {
+	    scaleOverride : true,
+        scaleSteps : 1,
+        scaleStepWidth : 5,
+        scaleStartValue : 0 
 }
 
 var pieOptions = {
@@ -208,7 +256,7 @@ var pieOptions = {
 	animationEasing: 'easeInOutQuart',
 	inGraphDataShow: true,
     inGraphDataRadiusPosition: 2,
-    inGraphDataFontColor: 'white'
+    inGraphDataFontColor: 'black'
 }
 
 

@@ -45,11 +45,12 @@ function cleanArray(ary) {
 }
 
 // Goal constructor
-function Goal(title, description, dataEntryType, comboBoxFields, start, end) {
+function Goal(title, description, dataEntryType, comboBoxFields, start, end, summary) {
     this.title = title; // string
     this.description = description; // string
     this.dataEntryType = dataEntryType.toLowerCase(); // string
     this.comboBoxFields = comboBoxFields; // string array
+	this.summary=summary;
     
     // set hours of start to 0
     start.setUTCHours(0, 0, 0, 0);

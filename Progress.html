@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Progress</title>
+    <title>Add a new Goal</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -45,7 +45,6 @@
     function addCombo() {
     var textb = document.getElementById("txtCombo");
     var combo = document.getElementById("combo");
-
     var option = document.createElement("option");
     option.text = textb.value;
     option.value = textb.value;
@@ -68,7 +67,7 @@
     <SCRIPT LANGUAGE="JavaScript" SRC="js/CalendarPopup.js"></SCRIPT>
 
 
-    <script>
+  <!--   <script>
     $(document).ready(function(){
         goalsRef.once("value", function(data) {
             // populate combobox
@@ -77,15 +76,13 @@
             });
         });
     });
-
     function add(selectId, optText, optValue) {
         var newOption = document.createElement("option")
         newOption.text = optText;
         newOption.value = optValue;
         document.getElementById(selectId).options.add(newOption);
     }
-
-    </script>
+    </script> -->
 
     <script language="JavaScript">
     var cal = new CalendarPopup();
@@ -134,20 +131,26 @@
 <!--     <ul class="container">
         <div id='TextBoxesGroup'>
         </div>
-
         <hr class="featurette-divider">
     </ul> -->
-		<div class="col-md-6" style="margin: 0 auto; text-align: center;font-size:30px">
+		<div class="col-md-6" style="margin: 0 auto; text-align: center;font-size:20px">
 			<select id="goal" >
 				<option selected="selected" >Select a goal</option>
+				<option value="combobox1">Run goal</option>
+				<option value="checkbox">Eat vegetables</option>
+				<option value="combobox2">Gym goal</option>
 			</select>
 		</div>
 
-		<div class="col-md-6" style="margin: 0 auto; text-align: center;font-size:30px">
+		<div class="col-md-6" style="margin: 0 auto; text-align: center;font-size:20px">
 			<select id="timeperiod">
 			 <option selected="selected" value = "null">Select a timeperiod</option>
 			 <option value = "7">Last 7 days</option>
 			 <option value = "14">Last 14 days</option>
+			 <option value = "30">Last 30 days</option>
+			 <option value = "60">Last 60 days</option>
+			 <option value = "180">Last 180 days</option>
+			 <option value = "360">Last 360 days</option>
 			 </select>
 		</div>
 
