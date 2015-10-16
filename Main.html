@@ -171,19 +171,31 @@
 
                 newTextBoxDiv.appendTo("#TextBoxesGroup");
 
+                var todate = new Date();
+                todate.setHours(todate.getHours() + 13);
+              
 //                if (goalsMainHTML[i].summary != null && goalsMainHTML[i].summary != "") {
 //                    console.log(goalsMainHTML[i].summary);
                     if (goalsMainHTML[i].status.localeCompare("numeric") == 0) {
                         document.getElementById("textbox" + counter).value = goalsMainHTML[i].summary;
+                        if (todate != new Date(sessionStorage.getItem("date"))) {
+                            document.getElementById("textbox" + counter).disabled = true;
+                        }
                     }
 
                     else if (goalsMainHTML[i].status.localeCompare("freetext") == 0) {
                         document.getElementById("textbox" + counter).value = goalsMainHTML[i].summary;
+                        if (todate != new Date(sessionStorage.getItem("date"))) {
+                            document.getElementById("textbox" + counter).disabled = true;
+                        }
                     }
 
                     else if (goalsMainHTML[i].status.localeCompare("checkbox") == 0) {
                         if (goalsMainHTML[i].summary) {
                             document.getElementById("textbox" + counter).checked = goalsMainHTML[i].summary;
+                            if (todate != new Date(sessionStorage.getItem("date"))) {
+                                document.getElementById("textbox" + counter).disabled = true;
+                            }
                         }
                     }
 
@@ -197,6 +209,9 @@
                             }
                         }
                         document.getElementById("textbox" + counter).selectedIndex = index;
+                        if (todate != new Date(sessionStorage.getItem("date"))) {
+                            document.getElementById("textbox" + counter).disabled = true;
+                        }
                     }
 //                }
 
