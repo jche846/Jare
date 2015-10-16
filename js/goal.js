@@ -281,16 +281,16 @@ function deleteGoalEvent(eventId) {
 }
 
 // update goal based on a change in the end date
-function updateGoalClick(oldGoal, title, description, end) {
+function updateGoalClickXX(oldGoal, title, description, end) {
   
     updatedGoal = new Goal(title, description, null, null, oldGoal.start, end);
   
-    var index = getGoalIndexFromArray(oldGoal);
+    //var index = getGoalIndexFromArray(oldGoal);
     
-    if (updatedGoal.end > oldGoal.end) { // goal has its end date extended so add more events
+    if (new Date(updatedGoal.end) > new Date(oldGoal.end)) { // goal has its end date extended so add more events
         // goal is split daily so it occupies a slot for each day until its end date
         var startDate = new Date(oldGoal.end); // TODO maybe +1 day??
-        while (startDate <= updatedGoal.end) {
+        while (startDate <= new Date(updatedGoal.end)) {
 
             client.addEvent(calendarID, { title: updatedGoal.title, start: startDate, description: updatedGoal.description, status: updatedGoal.dataEntryType, location: updatedGoal.comboBoxFields },
 
@@ -317,8 +317,9 @@ function updateGoalClick(oldGoal, title, description, end) {
             // to the next day
             startDate.setDate(startDate.getDate() + 1);
         }
-    } else if (updatedGoal.end < oldGoal.end) { // goal has its end date shortened so delete those extra events
+    } else if (new Date(updatedGoal.end) < new Date(oldGoal.end)) { // goal has its end date shortened so delete those extra events
         var today = new Date();
+        today.setHours(today.getHours() + 13);
         today.setUTCHours(0, 0, 0, 0);
         
         var idList = oldGoal.idList;
@@ -380,6 +381,41 @@ function updateGoalClick(oldGoal, title, description, end) {
     goals[index].end = updatedGoal.end;
   
     saveGoals();
+}
+
+function updateGoalClick(oldGoal, title, description, end) {
+    updatedGoal = new Goal(title, description, oldGoal.status, null, new Date(oldGoal.start), end);
+  
+    goalsRef.child(oldGoal.title).once("value", function(data) {
+        //console.log(data.val());
+        if (data.val() != null) {
+            // TODO
+        }
+    });
+  
+    client.updateEvent(calendarID, oldGoal.id, { title: updatedGoal.title, start: new Date(oldGoal.start), description: updatedGoal.description },
+        /**
+        * onSuccess callback
+        * @param res: response
+        * @param data: deserialized new calendar data e.g. { name: "My Calendar", id: 1 }
+        */
+        function(res, data) {
+            console.log(res);
+            console.log(data);
+            //alert('Succeeded. Event id: ' + data.id);
+      
+            // redirect to main after 1s
+            setTimeout(function(){ window.location = "Main.html" }, 1000);
+        },
+
+        /**
+        * onError callback
+        * @param res: response
+        */
+        function(res, data) {
+            alert('Failed to update data entry');
+        }
+    );
 }
 
 // update local TODO deprecated
