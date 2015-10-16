@@ -20,60 +20,10 @@ function uoaCalendar(element, options) {
 
 
 	function addDialogForm(newEvent) {
-		var newDiv = document.createElement("div");
-		var prefix = '';
 
-		if (true == newEvent) {
-			newDiv.title = 'Create new event';
-		} else {
-			newDiv.title = 'Edit event';
-			prefix = 'edit-';
-		}
-
-		newDiv.id = prefix + 'dialog-form';
-		document.body.appendChild(newDiv);
-
-		var p = document.createElement("p");
-		p.class = 'validateTips';
-		p.appendChild(document.createTextNode('All form fields are required.'));
-		newDiv.appendChild(p);
-
-		var form = document.createElement("form");
-		newDiv.appendChild(form);
-		var fieldset = document.createElement("fieldset");
-		form.appendChild(fieldset);
-
-		var eventType = options.eventType;
-
-
-		for (builtinField in stdFields) {
-			var label = document.createElement("label");
-			label.for = prefix + builtinField;
-			var labelText = document.createTextNode(stdFields[builtinField]);
-			label.appendChild(labelText);
-			fieldset.appendChild(label);
-
-
-			var input = document.createElement("input");
-			if ($.inArray(stdFields[builtinField],['allDay', 'todo']) >= 0) {
-				input.type = 'checkbox';
-			} else {
-				input.type = 'text';
-			}
-			input.name = prefix + stdFields[builtinField];
-			input.id = prefix + stdFields[builtinField];
-
-			fieldset.appendChild(input);
-			fieldset.appendChild(document.createElement("br"));
-
-		}
-		//}
 
 	}
 
-
-	addDialogForm(true);
-	addDialogForm(false);
 
 	console.log("datetimepickers called")
 	jQuery("#start").datetimepicker({
