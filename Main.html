@@ -153,16 +153,18 @@
 
 
                   if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) == 0) {
-                      htmlCode += '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button></div>'+
-                      '<hr class="featurette-divider">';
+                      htmlCode += '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>';
                   }
+                  
+                  htmlCode += '</div>'+
+                      '<hr class="featurette-divider">';
 
                     newTextBoxDiv.after().html(htmlCode);
 
                 } else {
                    comboboxHtml = '<div class="col-md-6" style="text-align: left"><a onclick="goalClick(goalsMainHTML[' + i + '])"><h2 class="featurette-heading">' + goalsMainHTML[i].title + '</h2></a></div>'+
                         '<div style="text-align: left"><p style="font-size:20px;">' + goalsMainHTML[i].description + '</p>'+
-                        '<select id="textbox' + counter + '"> <option value=null>Please select...</option></div>';
+                        '<select id="textbox' + counter + '"> <option value=null>Please select...</option>';
 
                   //console.log(goalsMainHTML[i].location);
                   var comboboxFields = goalsMainHTML[i].location.split(",");
@@ -170,11 +172,14 @@
                   for (var j = 0; j < comboboxFields.length; j++) {
                       comboboxHtml += '<option value=' + comboboxFields[j] + '>' + comboboxFields[j] + '</option>';
                   }
+                  comboboxHtml += '</select>';
 
                   if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) == 0) {
-                      comboboxHtml += '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button></div>'+
-                      '<hr class="featurette-divider">';
+                      comboboxHtml += '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>';
                   }
+                  
+                  comboboxHtml += '</div>'+
+                      '<hr class="featurette-divider">';
 
                   newTextBoxDiv.after().html(comboboxHtml);
                 }
