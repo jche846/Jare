@@ -139,22 +139,28 @@
 
             function populate(i) {
 
+                var todate = new Date();
+                todate.setHours(todate.getHours() + 12);
+
                 var newTextBoxDiv = $(document.createElement('div'))
                    .attr("id", 'TextBoxDiv' + counter);
 
                 if (inputType.localeCompare("combobox") != 0) {
-                    newTextBoxDiv.after().html('<div class="col-md-6" style="text-align: left"><a onclick="goalClick(goalsMainHTML[' + i + '])"><h1 class="featurette-heading">' + goalsMainHTML[i].title + '</h1></a></div>'+
+                    var htmlCode = '<div class="col-md-6" style="text-align: left"><a onclick="goalClick(goalsMainHTML[' + i + '])"><h1 class="featurette-heading">' + goalsMainHTML[i].title + '</h1></a></div>'+
                         '<div style="text-align: left"><p style="font-size:20px;">' + goals[i].description + '</p>'+
                         '<input type="'+ inputType + '" name="textbox' + counter +
-                        '" id="textbox' + counter + '" placeholder="Data Entry" >&nbsp;&nbsp;&nbsp;' +
-                        '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button></div>'+
-                      '<hr class="featurette-divider">'
-                    );
+                        '" id="textbox' + counter + '" placeholder="Data Entry" >';
+
+                  if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) == 0) {
+                      htmlCode += '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button></div>'+
+                      '<hr class="featurette-divider">';
+                  }
+
+                    newTextBoxDiv.after().html(htmlCode);
                 } else {
                    comboboxHtml = '<div class="col-md-6" style="text-align: left"><a onclick="goalClick(goalsMainHTML[' + i + '])"><h2 class="featurette-heading">' + goalsMainHTML[i].title + '</h2></a></div>'+
                         '<p style="font-size:20px;">' + goalsMainHTML[i].description + '</p>'+
                         '<select id="textbox' + counter + '"> <option value=null>Please select...</option>';
-
 
                   //console.log(goalsMainHTML[i].location);
                   var comboboxFields = goalsMainHTML[i].location.split(",");
@@ -163,8 +169,10 @@
                       comboboxHtml += '<option value=' + comboboxFields[j] + '>' + comboboxFields[j] + '</option>';
                   }
 
-                  comboboxHtml += '</select> <button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>' +
+                  if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) == 0) {
+                      comboboxHtml += '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button></div>'+
                       '<hr class="featurette-divider">';
+                  }
 
                   newTextBoxDiv.after().html(comboboxHtml);
                 }
@@ -175,15 +183,25 @@
 //                    console.log(goalsMainHTML[i].summary);
                     if (goalsMainHTML[i].status.localeCompare("numeric") == 0) {
                         document.getElementById("textbox" + counter).value = goalsMainHTML[i].summary;
+                        if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) != 0) {
+                            document.getElementById("textbox" + counter).disabled = true;
+                        }
                     }
 
                     else if (goalsMainHTML[i].status.localeCompare("freetext") == 0) {
                         document.getElementById("textbox" + counter).value = goalsMainHTML[i].summary;
+                        if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) != 0) {
+                            document.getElementById("textbox" + counter).disabled = true;
+                        }
                     }
 
                     else if (goalsMainHTML[i].status.localeCompare("checkbox") == 0) {
                         if (goalsMainHTML[i].summary) {
                             document.getElementById("textbox" + counter).checked = goalsMainHTML[i].summary;
+                            if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) != 0) {
+                                console.log('cool');
+                                document.getElementById("textbox" + counter).disabled = true;
+                            }
                         }
                     }
 
@@ -197,6 +215,9 @@
                             }
                         }
                         document.getElementById("textbox" + counter).selectedIndex = index;
+                        if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) != 0) {
+                            document.getElementById("textbox" + counter).disabled = true;
+                        }
                     }
 //                }
 
