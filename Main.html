@@ -155,7 +155,7 @@
                   if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) == 0) {
                       htmlCode += '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>';
                   }
-                  
+
                   htmlCode += '</div>'+
                       '<hr class="featurette-divider">';
 
@@ -177,7 +177,7 @@
                   if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) == 0) {
                       comboboxHtml += '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>';
                   }
-                  
+
                   comboboxHtml += '</div>'+
                       '<hr class="featurette-divider">';
 
@@ -223,7 +223,7 @@
                         }
                         document.getElementById("textbox" + counter).selectedIndex = index;
                         if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) != 0) {
-                            document.getElementById("textbox" + counter).disabled = true;
+                            document.getElementById("textbox" + counter).disabled = disabled;
                         }
                     }
 //                }
