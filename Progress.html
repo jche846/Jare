@@ -67,7 +67,7 @@
     <SCRIPT LANGUAGE="JavaScript" SRC="js/CalendarPopup.js"></SCRIPT>
 
 
-  <!--   <script>
+   <script>
     $(document).ready(function(){
         goalsRef.once("value", function(data) {
             // populate combobox
@@ -82,8 +82,8 @@
         newOption.value = optValue;
         document.getElementById(selectId).options.add(newOption);
     }
-    </script> -->
-
+    </script>
+ 
     <script language="JavaScript">
     var cal = new CalendarPopup();
     </script>
@@ -133,24 +133,18 @@
         </div>
         <hr class="featurette-divider">
     </ul> -->
-		<div class="col-md-6" style="margin: 0 auto; text-align: center;font-size:20px">
+		<div class="col-md-6" style="margin: 0 auto; text-align: center;font-size:30px">
 			<select id="goal" >
 				<option selected="selected" >Select a goal</option>
-				<option value="combobox1">Run goal</option>
-				<option value="checkbox">Eat vegetables</option>
-				<option value="combobox2">Gym goal</option>
 			</select>
 		</div>
 
-		<div class="col-md-6" style="margin: 0 auto; text-align: center;font-size:20px">
+		<div class="col-md-6" style="margin: 0 auto; text-align: center;font-size:30px">
 			<select id="timeperiod">
 			 <option selected="selected" value = "null">Select a timeperiod</option>
 			 <option value = "7">Last 7 days</option>
 			 <option value = "14">Last 14 days</option>
 			 <option value = "30">Last 30 days</option>
-			 <option value = "60">Last 60 days</option>
-			 <option value = "180">Last 180 days</option>
-			 <option value = "360">Last 360 days</option>
 			 </select>
 		</div>
 
@@ -164,7 +158,9 @@
        <canvas id="barChart" width="600" height="400" style="display:none" ></canvas>
 	   <canvas id="pieChart" width="600" height="400" style="display:none" ></canvas>
 	</div>
-    </div>
+	
+
+</div>
 
 
     <script>
