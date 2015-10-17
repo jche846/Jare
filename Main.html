@@ -146,7 +146,7 @@
                    .attr("id", 'TextBoxDiv' + counter);
 
                 if (inputType.localeCompare("combobox") != 0) {
-                    var htmlCode = '<div class="col-md-6" style="text-align: left"><a onclick="goalClick(goalsMainHTML[' + i + '])"><h1 class="featurette-heading">' + goalsMainHTML[i].title + '</h1></a></div>'+
+                    var htmlCode = '<div class="col-md-6" style="text-align: left"><a onclick="goalClick(goalsMainHTML[' + i + '])"><h1 class="featurette-heading"><p class="glyphicon glyphicon-pencil"></p>     ' + goalsMainHTML[i].title + '</h1></a></div>'+
                         '<div style="text-align: left"><p style="font-size:20px;">' + goals[i].description + '</p>'+
                         '<input type="'+ inputType + '" name="textbox' + counter +
                         '" id="textbox' + counter + '" placeholder="Data Entry" >&nbsp;&nbsp;&nbsp;';
@@ -161,7 +161,7 @@
                     newTextBoxDiv.after().html(htmlCode);
 
                 } else {
-                   comboboxHtml = '<div class="col-md-6" style="text-align: left"><a onclick="goalClick(goalsMainHTML[' + i + '])"><h2 class="featurette-heading">' + goalsMainHTML[i].title + '</h2></a></div>'+
+                   comboboxHtml = '<div class="col-md-6" style="text-align: left"><a onclick="goalClick(goalsMainHTML[' + i + '])"><h2 class="featurette-heading"><p class="glyphicon glyphicon-pencil"></p>     ' + goalsMainHTML[i].title + '</h2></a></div>'+
                         '<div style="text-align: left"><p style="font-size:20px;">' + goalsMainHTML[i].description + '</p>'+
                         '<select id="textbox' + counter + '"> <option value=null>Please select...</option>';
 
