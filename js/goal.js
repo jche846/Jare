@@ -421,7 +421,7 @@ function updateGoalClick(oldGoal, title, description, end) {
     // update firebase data
     goalsRef.child(oldGoal.title).update({
         title: updatedGoal.title,
-        description: updatedGgoal.description,
+        description: updatedGoal.description,
         end: updatedGoal.end.toISOString()
     });
 
