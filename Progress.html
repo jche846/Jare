@@ -72,7 +72,7 @@
         goalsRef.once("value", function(data) {
             // populate combobox
             data.forEach(function(goal) {
-                add("goal", goal.key(), goal.key());
+                add("goal", goal.val().title, goal.val().title);
             });
         });
     });

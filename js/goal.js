@@ -56,7 +56,6 @@ function Goal(title, description, dataEntryType, comboBoxFields, start, end, sum
     start.setUTCHours(0, 0, 0, 0);
     this.start = start; //datetime
     
-    // TODO
     if (end == null || end.toDateString().localeCompare("Invalid Date") == 0) {
         // create endDate to be +1? years from now (endless goal)
         end = new Date();
@@ -186,7 +185,7 @@ function addGoalEvent(goal) {
     // goal is split daily so it occupies a slot for each day until its end date
     var startDate = goal.start;
     console.log(goal);
-    while (startDate <= goal.end) { // TODO if goal end is not specified go +1 year
+    while (startDate <= goal.end) {
 
         client.addEvent(calendarID, { title: goal.title, start: startDate, description: goal.description, status: goal.dataEntryType, location: goal.comboBoxFields },
 
@@ -214,13 +213,15 @@ function addGoalEvent(goal) {
         startDate.setDate(startDate.getDate() + 1);
     } 
     
-    // TODO redirect to main after 2s assuming successfully added
-    setTimeout(function(){ window.location = "Main.html" }, 2000);
+    // redirect to main after 0.5s assuming successfully added
+    setTimeout(function(){ window.location = "Main.html" }, 500);
 }
 
 // args: goal obj from server that is to be deleted
 function deleteGoalClick(goal) {
-    deleteGoalEvent(goal.id);
+    deleteGoalEvent(goal.title);
+  
+    // TODO old ..//delete?
     deleteGoal(goal);
   
     saveGoals();
@@ -253,29 +254,60 @@ function deleteGoal(goal) {
 // delete this goal using the goal id
 // don't delete from Firebase unless all goal events are removed, i.e. created and deleted on same day
 // above^ delete id 'deleteFromFB = true
-function deleteGoalEvent(eventId) {
-    client.deleteEvent(calendarID, eventId,
-
+function deleteGoalEvent(goalTitle) {
+    var today = new Date();
+    today.setHours(today.getHours() + 13);
+    today.setUTCHours(0, 0, 0, 0);
+  
+    client.listEvents(calendarID,
         /**
-         * onSuccess callback
-         * @param res: response
-         * @param data: deserialized new event data e.g. { name: "Star Wars Release Date", id: 1 }
-         */
+        * onSuccess callback
+        * @param res: response
+        * @param data: deserialized new calendar data e.g. { name: "My Calendar", id: 1 }
+        */
         function(res, data) {
             console.log(res);
             console.log(data);
             //alert('Succeeded. Event id: ' + data.id);
       
-            // TODO redirect to main after 1.5s
-            setTimeout(function(){ window.location = "Main.html" }, 1500);
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].title.localeCompare(goalTitle) == 0 && new Date(data[i].start) >= today) {
+
+                    // delete future events
+                    client.deleteEvent(calendarID, data[i].id,
+
+                        /**
+                         * onSuccess callback
+                         * @param res: response
+                         * @param data: deserialized new event data e.g. { name: "Star Wars Release Date", id: 1 }
+                         */
+                        function(res, data) {
+                            console.log(res);
+                            console.log(data);
+                            //alert('Succeeded. Event id: ' + data.id);
+                        },
+
+                        /**
+                         * onError callback
+                         * @param res: response
+                         */
+                        function(res, data) {
+                            alert('Failed to delete event');
+                        }
+                    );
+                }
+            }
+      
+            // redirect to main after 0.5s
+            setTimeout(function(){ window.location = "Main.html" }, 500);
         },
 
         /**
-         * onError callback
-         * @param res: response
-         */
+        * onError callback
+        * @param res: response
+        */
         function(res, data) {
-            alert('Failed to delete event');
+            alert('Failed to get events');
         }
     );
 }
@@ -386,14 +418,14 @@ function updateGoalClickXX(oldGoal, title, description, end) {
 function updateGoalClick(oldGoal, title, description, end) {
     updatedGoal = new Goal(title, description, oldGoal.status, null, new Date(oldGoal.start), end);
   
-    goalsRef.child(oldGoal.title).once("value", function(data) {
-        //console.log(data.val());
-        if (data.val() != null) {
-            // TODO
-        }
+    // update firebase data
+    goalsRef.child(oldGoal.title).update({
+        title: updatedGoal.title,
+        description: updatedGgoal.description,
+        end: updatedGoal.end.toISOString()
     });
-  
-    client.updateEvent(calendarID, oldGoal.id, { title: updatedGoal.title, start: new Date(oldGoal.start), description: updatedGoal.description },
+
+    client.listEvents(calendarID,
         /**
         * onSuccess callback
         * @param res: response
@@ -404,8 +436,35 @@ function updateGoalClick(oldGoal, title, description, end) {
             console.log(data);
             //alert('Succeeded. Event id: ' + data.id);
       
-            // redirect to main after 1s
-            setTimeout(function(){ window.location = "Main.html" }, 1000);
+            for (var i = 0; i < data.length; i++) {
+                if (data[i].title.localeCompare(oldGoal.title) == 0) {
+                    
+                    // update event
+                    client.updateEvent(calendarID, data[i].id, { title: updatedGoal.title, start: new Date(data[i].start), description: updatedGoal.description },
+                        /**
+                        * onSuccess callback
+                        * @param res: response
+                        * @param data: deserialized new calendar data e.g. { name: "My Calendar", id: 1 }
+                        */
+                        function(res, cData) {
+                            console.log(res);
+                            console.log(cData);
+                            //alert('Succeeded. Event id: ' + data.id);
+                        },
+
+                        /**
+                        * onError callback
+                        * @param res: response
+                        */
+                        function(res, cData) {
+                            alert('Failed to update data entry');
+                        }
+                    );
+                }
+            }
+      
+            // redirect to main after 0.5s
+            setTimeout(function(){ window.location = "Main.html" }, 500);
         },
 
         /**
@@ -413,26 +472,10 @@ function updateGoalClick(oldGoal, title, description, end) {
         * @param res: response
         */
         function(res, data) {
-            alert('Failed to update data entry');
+            alert('Failed to get events');
         }
     );
 }
-
-// update local TODO deprecated
-//function updateGoal(oldGoal, updatedGoal) {
-//    var success = false;
-//    
-//    var addedGoal = addGoal(updatedGoal);
-//    if (addedGoal)
-//        success = deleteGoal(oldGoal);
-//  
-//    if (success) {
-//        alert("Goal updated!");
-//    } else {
-//        alert("Error updating goal");
-//    }
-//    return success;
-//}
 
 // goal is the goal data from the server
 // dataEntry is from the client input
@@ -504,7 +547,7 @@ function getEventClick(date) {
             data = cleanArray(data);
             console.log(data);
             populateMain(data); // function called in Main.html
-            return data; // TODO don't need return
+            
         },
         
         // onError callback
@@ -557,21 +600,7 @@ function findEventClick(goalTitle, days) {
                 }
             }
       
-            chartGenerate(data);
-            
-//            // for progress html
-//            summary = [];
-//            for (var i = 0; i < data.length; i++) {
-//                if (data[i].summary == "") {
-//                    if (data[i].status.localeCompare(CHECKBOX) == 0)
-//                        data[i].summary = 0;
-//                }
-//                summary.push(data[i].summary);
-//            }
-//            console.log(summary);
-//            console.log(data[0].status);
-//      
-//            return data; // TODO don't need return
+            chartGenerate(data); // calls method in progress.js
         },
         
         // onError callback
