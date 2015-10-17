@@ -222,7 +222,7 @@
                         }
                         document.getElementById("textbox" + counter).selectedIndex = index;
                         if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) != 0) {
-                            document.getElementById("textbox" + counter).disabled = disabled;
+                            document.getElementById("textbox" + counter).disabled = true;
                         }
                     }
 //                }

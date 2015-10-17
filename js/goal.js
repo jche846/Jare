@@ -519,12 +519,13 @@ function getEventClick(date) {
 //    var mm = today.getMonth()+1; //January is 0!
 //    var yyyy = today.getFullYear();
     
+    //date.setHours(date.getHours() + 13);
     date.setUTCHours(23, 0, 0, 0);
     
     var startDate = new Date(date);
     startDate.setUTCHours(0, 0, 0, 0);
   
-    //console.log(startDate, date);
+    console.log(startDate.toISOString(), date.toISOString());
     
     client.findEvents(calendarID, startDate, date,
 
