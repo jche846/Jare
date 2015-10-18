@@ -171,7 +171,7 @@
                   for (var j = 0; j < comboboxFields.length; j++) {
                       comboboxHtml += '<option value=' + comboboxFields[j] + '>' + comboboxFields[j] + '</option>';
                   }
-                  comboboxHtml += '</select>';
+                  comboboxHtml += '</select>&nbsp;&nbsp;&nbsp;';
 
                   if (todate.toDateString().localeCompare(new Date(sessionStorage.getItem("date")).toDateString()) == 0) {
                       comboboxHtml += '<button onclick="updateClick(goalsMainHTML[' + i + '], document.getElementById(\'textbox' + counter + '\').value)">Update</button>';
