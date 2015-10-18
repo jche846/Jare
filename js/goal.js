@@ -158,7 +158,7 @@ function addGoalToCloud(goal) {
             for (var i = 0; i < goalTitles.length; i++) {
                 console.log("checking goal");
                 if (goalTitles[i].localeCompare(goal.title) == 0) {
-                    alert("Goal title already exists! Choose another title - fb");
+                    alert("Goal title already exists! Choose another title.");
                     titleExists = true;
                     break;
                 }
