@@ -86,12 +86,12 @@
             <legend><p class="glyphicon glyphicon-pencil"></p>   Edit Goal <a class="btn btn-default" onclick="deleteClick()"><p class="glyphicon glyphicon-trash"></p> Delete</a></legend>
 
             <div class="input-group">
-                Title of the goal:
+              <b>Title of the goal:</b>
                 <input id="goalTitle" type="text" class="form-control" placeholder="Title of the goal" aria-describedby="basic-addon2">
             </div>
             <br>
 
-            Description of the goal:
+            <b>Description of the goal:</b>
             <div class="input-group">
                 <textarea id="goalDescription" placeholder="Description of the goal" name="message" rows="10" cols="30"></textarea>
             </div>
@@ -100,10 +100,10 @@
 
     <div>
         <div>
-            End date of the goal:
+            <b>End date: (mm/dd/yyyy)</b>
             <form class="row" NAME="example">
                 <div class="col-md-3"><input id="textdate" type="text" class="form-control" name="date1" value=""
-                                             placeholder="End date (leave blank if endless)" style="width:270px"
+                                             placeholder="leave blank to end in next 30 days" style="width:270px"
                                              aria-describedby="basic-addon2">
                     <a href="#"
                        onClick="cal.select(document.forms['example'].date1,'anchor1','MM/dd/yyyy'); return false;"
