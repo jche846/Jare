@@ -27,7 +27,7 @@ var runday7 = new Goal("run 5km", "description", "checkbox", null, new Date(),nu
 var rundays = [runday1,runday2,runday3,runday4,runday5,runday6,runday7];
 
 function chartGenerateClick() {
-    var days = getDays();
+    var days = getDays()-1;
     var title = document.getElementById("goal").value;
     findEventClick(title, days); // this function calls chartGenerate() below
 }
